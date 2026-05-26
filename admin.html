@@ -2,10 +2,11 @@
 <html lang="id">
 <head>
   <!-- 
-    iMersConnect v10.1 - ULTIMATE MAESTRO EDITION (God-Tier SaaS)
+    iMersConnect v10.3 - ULTIMATE MAESTRO EDITION (God-Tier SaaS)
     ========================================================================
     Developer : Terry Katar | imersnesia.com
-    Features  : Full Dynamic Campaign Builder, Sequences, CRM, Broadcast
+    Features  : Full Dynamic Campaign, Sequences, CRM, Broadcast, Templates
+    Status    : FULL UNTRUNCATED VERSION (Anti-Cut)
     ========================================================================
   -->
   <base target="_top">
@@ -83,7 +84,7 @@
 </head>
 <body class="relative">
 
-  <!-- STEALTH COVER -->
+  <!-- ================= STEALTH COVER (KAMUFLASE 404) ================= -->
   <div id="stealthCover" class="fixed inset-0 bg-white z-[9990] flex flex-col items-center justify-center transition-opacity duration-700">
     <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">iMersConnect</div>
     <div class="text-center opacity-40 select-none pointer-events-none">
@@ -92,7 +93,7 @@
     </div>
   </div>
 
-  <!-- LOGIN SCREEN -->
+  <!-- ================= LOGIN SCREEN ================= -->
   <div id="loginScreen" class="fixed inset-0 bg-[#09090b] z-[9995] hidden items-center justify-center p-4 transition-opacity duration-500 opacity-0">
     <div class="glass-panel max-w-sm w-full text-center border-[#27272a] transform scale-95 transition-transform duration-500" id="loginBox">
       <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-2xl mx-auto flex items-center justify-center mb-6 border border-emerald-500/20">
@@ -109,7 +110,7 @@
     </div>
   </div>
 
-  <!-- LOADING OVERLAY -->
+  <!-- ================= LOADING OVERLAY ================= -->
   <div id="loading-overlay" class="fixed inset-0 bg-[#09090b]/90 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
     <div class="w-16 h-16 border-4 border-zinc-800 rounded-full relative mb-6">
       <div class="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin absolute -inset-1"></div>
@@ -117,33 +118,32 @@
     <p class="text-emerald-500 font-black text-xs uppercase tracking-[0.5em] animate-pulse">Syncing Database...</p>
   </div>
 
-  <!-- MAIN DASHBOARD -->
+  <!-- ================= MAIN DASHBOARD ================= -->
   <div id="mainDashboard" class="hidden w-full h-screen overflow-hidden opacity-0 transition-opacity duration-1000 flex-row">
     
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR NAVIGATION -->
     <aside class="w-72 bg-[#09090b] border-r border-[#27272a] flex flex-col py-8 pl-6 pr-0 z-20 shrink-0 h-full">
       <div class="flex items-center gap-4 mb-10 pr-6">
         <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i data-lucide="activity" class="w-5 h-5"></i></div>
         <div>
           <h1 class="text-xl font-black tracking-tight text-white">iMers<span class="text-emerald-500">Connect</span></h1>
-          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Enterprise v10.1</p>
+          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Maestro v10.3</p>
         </div>
       </div>
       
       <nav class="flex-1 space-y-1 overflow-y-auto pr-6">
         <div onclick="switchTab('dashboard')" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard Analytics</div>
         <div onclick="switchTab('leads')" class="nav-item" id="nav-leads"><i data-lucide="users" class="w-4 h-4"></i> Data Leads (CRM)</div>
-        <div onclick="switchTab('campaign')" class="nav-item" id="nav-campaign"><i data-lucide="git-merge" class="w-4 h-4"></i> Link Campaigns</div>
+        <div onclick="switchTab('campaign')" class="nav-item" id="nav-campaign"><i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i> Dynamic Campaigns</div>
         <div onclick="switchTab('sequences')" class="nav-item" id="nav-sequences"><i data-lucide="workflow" class="w-4 h-4 text-indigo-400"></i> Auto Sequences</div>
+        <div onclick="switchTab('templates')" class="nav-item" id="nav-templates"><i data-lucide="library" class="w-4 h-4 text-amber-400"></i> Template Manager</div>
         <div onclick="switchTab('broadcast')" class="nav-item" id="nav-broadcast"><i data-lucide="radio" class="w-4 h-4 text-rose-400"></i> Broadcast Engine</div>
-        <div onclick="switchTab('templates')" class="nav-item" id="nav-templates"><i data-lucide="library" class="w-4 h-4"></i> Template Gallery</div>
-        <div onclick="switchTab('gateway')" class="nav-item" id="nav-gateway"><i data-lucide="server" class="w-4 h-4"></i> Gateway & API</div>
-        <div onclick="switchTab('global')" class="nav-item" id="nav-global"><i data-lucide="palette" class="w-4 h-4"></i> Global Branding</div>
+        <div onclick="switchTab('gateway')" class="nav-item" id="nav-gateway"><i data-lucide="server" class="w-4 h-4"></i> Gateway & Auth</div>
+        <div onclick="switchTab('global')" class="nav-item" id="nav-global"><i data-lucide="globe" class="w-4 h-4 text-blue-400"></i> Global Branding</div>
       </nav>
 
       <div class="pr-6 mt-6 space-y-3">
          <button onclick="handleSave()" id="saveBtnMaster" class="btn-glow w-full !py-3 !text-xs shadow-[0_0_20px_rgba(16,185,129,0.2)]"><i data-lucide="save" class="w-4 h-4"></i> SAVE ALL CHANGES</button>
-         <!-- SECURE LOGOUT BUTTON -->
          <button onclick="logoutAdmin()" class="w-full py-3 text-xs font-bold text-zinc-500 hover:text-rose-500 uppercase tracking-widest flex items-center justify-center gap-2 transition-all"><i data-lucide="log-out" class="w-4 h-4"></i> Secure Logout</button>
       </div>
     </aside>
@@ -151,7 +151,7 @@
     <!-- MAIN CONTENT AREA -->
     <main class="flex-1 h-full overflow-y-auto p-10 bg-[#09090b] relative scroll-smooth">
       
-      <!-- 1. DASHBOARD ANALYTICS -->
+      <!-- TAB 1: DASHBOARD ANALYTICS -->
       <section id="tab-dashboard" class="tab-content active max-w-6xl">
         <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Enterprise Analytics</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
@@ -159,13 +159,13 @@
             <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Leads Masuk</p><p class="text-3xl font-black text-white" id="statLeads">0</p>
           </div>
           <div class="glass-panel !p-6 border-l-4 border-l-indigo-500">
-            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Active Sequences</p><p class="text-3xl font-black text-white" id="statSeqs">0</p>
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Active Campaigns</p><p class="text-3xl font-black text-white" id="statCamps">0</p>
           </div>
           <div class="glass-panel !p-6 border-l-4 border-l-rose-500">
-            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Broadcast Pending</p><p class="text-3xl font-black text-white" id="statBc">0</p>
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Active Sequences</p><p class="text-3xl font-black text-white" id="statSeqs">0</p>
           </div>
-          <div class="glass-panel !p-6 border-l-4 border-l-blue-500">
-            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Pesan Terkirim (Est)</p><p class="text-3xl font-black text-white">1,204</p>
+          <div class="glass-panel !p-6 border-l-4 border-l-amber-500">
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Saved Templates</p><p class="text-3xl font-black text-white" id="statTpls">0</p>
           </div>
         </div>
         
@@ -181,7 +181,7 @@
         </div>
       </section>
 
-      <!-- 2. DATA LEADS (CRM) -->
+      <!-- TAB 2: DATA LEADS (CRM) -->
       <section id="tab-leads" class="tab-content max-w-6xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-black text-white tracking-tight">Leads Database (CRM)</h2>
@@ -193,7 +193,7 @@
               <tr><th>Nama Leads</th><th>Email</th><th>WhatsApp</th><th>Campaign Asal</th><th>Status Sequence</th></tr>
             </thead>
             <tbody id="leadsTableBody" class="divide-y divide-[#27272a]">
-              <!-- Mock Data, pada real-production ditarik dari Apps Script -->
+              <!-- Mock Data, real data di Google Sheets -->
               <tr><td>Budi Santoso</td><td>budi@gmail.com</td><td>62812345678</td><td><span class="bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded text-xs font-bold">SEQ_GENERAL</span></td><td><span class="text-emerald-500 font-bold text-xs"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> Selesai (Step 3)</span></td></tr>
               <tr><td>Siti Aminah</td><td>siti.a@yahoo.com</td><td>62898765432</td><td><span class="bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded text-xs font-bold">PROMO_A</span></td><td><span class="text-amber-500 font-bold text-xs"><i data-lucide="loader" class="w-3 h-3 inline animate-spin"></i> Pending (Step 2)</span></td></tr>
             </tbody>
@@ -202,34 +202,33 @@
         </div>
       </section>
 
-      <!-- 3. CAMPAIGN LINK MANAGEMENT (THE GOD-TIER FORM) -->
+      <!-- TAB 3: FULL DYNAMIC CAMPAIGN BUILDER -->
       <section id="tab-campaign" class="tab-content max-w-7xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-black text-white tracking-tight">Dynamic Link Campaigns</h2>
           <button onclick="addCampaign()" class="btn-glow !bg-indigo-600 !shadow-[0_10px_25px_-5px_rgba(99,102,241,0.4)]"><i data-lucide="plus" class="w-4 h-4"></i> NEW CAMPAIGN</button>
         </div>
-        <p class="text-sm text-zinc-500 mb-8 max-w-3xl">Setiap Campaign memiliki Logo, Teks, Gambar, dan Warna Dinamis yang terpisah. Data leads akan dihubungkan otomatis ke Sequence dengan nama Campaign ID yang sama.</p>
+        <p class="text-sm text-zinc-500 mb-8 max-w-3xl">Buat Link Campaign tak terbatas. Setiap campaign memiliki Logo, Headline, Teks CTA, Warna Tombol, Warna Teks, dan Tema yang terpisah.</p>
         
         <div id="campaignListArea" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
           <!-- Inject by JS -->
         </div>
       </section>
 
-      <!-- 4. AUTO SEQUENCES BUILDER -->
+      <!-- TAB 4: AUTO SEQUENCES BUILDER -->
       <section id="tab-sequences" class="tab-content max-w-6xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-black text-white tracking-tight">Auto Sequence Builder</h2>
         </div>
-        <p class="text-sm text-zinc-400 mb-8 max-w-3xl leading-relaxed">Atur alur pengiriman pesan otomatis (Follow-up) setelah lead mendaftar. Pilih campaign, lalu tambahkan langkah-langkahnya secara berurutan.</p>
+        <p class="text-sm text-zinc-400 mb-8 max-w-3xl leading-relaxed">Pilih Campaign, lalu buat urutan pengiriman pesan (WA/Email) yang akan berjalan otomatis sejak lead mendaftar.</p>
 
         <div class="glass-panel mb-8">
-          <label>Pilih Campaign ID untuk diatur Follow-up nya</label>
+          <label>Pilih Campaign ID (Triggers)</label>
           <select id="seqCampaignSelect" class="input-pro bg-[#09090b]" onchange="renderSequences()">
             <option value="SEQ_GENERAL">SEQ_GENERAL (Default)</option>
           </select>
         </div>
 
-        <!-- Timeline Builder -->
         <div class="bg-[#18181b] border border-[#27272a] rounded-[2rem] p-8 md:p-12" id="sequenceBuilderArea">
           <!-- Diinject oleh JS -->
         </div>
@@ -239,72 +238,62 @@
         </div>
       </section>
 
-      <!-- 5. BROADCAST ENGINE -->
+      <!-- TAB 5: TEMPLATE MANAGER (DYNAMIC ADD & EDIT) -->
+      <section id="tab-templates" class="tab-content max-w-6xl">
+        <h2 class="text-3xl font-black text-white tracking-tight mb-8">Template Manager</h2>
+        <p class="text-sm text-zinc-400 mb-8 max-w-3xl leading-relaxed">Simpan kumpulan template Copywriting Anda di sini agar mudah di-copy-paste ke dalam Sequences atau Broadcast.</p>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- WA TEMPLATES -->
+          <div class="glass-panel border-t-4 border-t-emerald-500">
+            <h3 class="font-black text-emerald-500 mb-6 flex items-center gap-2"><i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp Templates</h3>
+            <div id="waTemplateList" class="space-y-5 mb-6">
+              <!-- Diinject oleh JS -->
+            </div>
+            <button onclick="addTemplate('WA')" class="btn-glow !bg-zinc-800 !text-emerald-500 border border-emerald-500/50 hover:!bg-emerald-900/30 w-full"><i data-lucide="plus" class="w-4 h-4"></i> Add New WA Template</button>
+          </div>
+
+          <!-- EMAIL TEMPLATES -->
+          <div class="glass-panel border-t-4 border-t-indigo-500">
+            <h3 class="font-black text-indigo-500 mb-6 flex items-center gap-2"><i data-lucide="mail" class="w-5 h-5"></i> Email HTML Templates</h3>
+            <div id="emailTemplateList" class="space-y-5 mb-6">
+              <!-- Diinject oleh JS -->
+            </div>
+            <button onclick="addTemplate('EMAIL')" class="btn-glow !bg-zinc-800 !text-indigo-500 border border-indigo-500/50 hover:!bg-indigo-900/30 w-full"><i data-lucide="plus" class="w-4 h-4"></i> Add New Email Template</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: BROADCAST ENGINE -->
       <section id="tab-broadcast" class="tab-content max-w-6xl">
         <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Broadcast Engine</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          <!-- Broadcast Form -->
-          <div class="lg:col-span-2 glass-panel">
-            <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">Jadwalkan Broadcast Baru</h3>
-            <div class="space-y-6">
-              <div class="grid grid-cols-2 gap-6">
-                <div><label>Channel Pengiriman</label><select id="bcChannel" class="input-pro bg-[#09090b]"><option value="WA">WhatsApp</option><option value="EMAIL">Email HTML</option></select></div>
-                <div><label>Target Tag / Campaign</label><input type="text" id="bcTag" class="input-pro" placeholder="Misal: PROMO_A atau new_lead"></div>
-              </div>
-              <div>
-                <label>Waktu Pengiriman (Kosongkan jika langsung)</label>
-                <input type="datetime-local" id="bcTime" class="input-pro">
-              </div>
-              <div>
-                <label>Isi Pesan / Template Copywriting</label>
-                <textarea id="bcMessage" rows="6" class="input-pro font-mono text-xs leading-relaxed" placeholder="Halo {{nama}}, ada promo eksklusif..."></textarea>
-              </div>
-              <button onclick="saveBroadcast()" class="btn-glow w-full !bg-rose-600 !shadow-[0_10px_25px_-5px_rgba(225,29,72,0.4)]"><i data-lucide="send" class="w-4 h-4"></i> MASUKKAN KE ANTREAN BROADCAST</button>
+        <div class="glass-panel mb-10">
+          <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">Jadwalkan Blast/Broadcast</h3>
+          <div class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div><label>Channel Pengiriman</label><select id="bcChannel" class="input-pro bg-[#09090b]"><option value="WA">WhatsApp</option><option value="EMAIL">Email HTML</option></select></div>
+              <div><label>Target Tag / Campaign ID</label><input type="text" id="bcTag" class="input-pro" placeholder="Misal: PROMO_A"></div>
+              <div><label>Waktu Pengiriman</label><input type="datetime-local" id="bcTime" class="input-pro"></div>
             </div>
-          </div>
-
-          <!-- Pending Broadcasts -->
-          <div class="glass-panel !p-6">
-            <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6">Antrean Mendatang</h3>
-            <div id="bcQueueList" class="space-y-4">
-              <!-- Diinject JS -->
+            <div>
+              <label>Isi Pesan (Atau Copy dari Template Manager)</label>
+              <textarea id="bcMessage" rows="6" class="input-pro font-mono text-xs leading-relaxed" placeholder="Halo {{nama}}, ada promo eksklusif untuk Anda..."></textarea>
             </div>
+            <button onclick="saveBroadcast()" class="btn-glow w-full !bg-rose-600 !shadow-[0_10px_25px_-5px_rgba(225,29,72,0.4)]"><i data-lucide="send" class="w-4 h-4"></i> SIMPAN KE ANTREAN BROADCAST</button>
           </div>
+        </div>
+        
+        <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4">Antrean Mendatang</h3>
+        <div id="bcQueueList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Diinject JS -->
         </div>
       </section>
 
-      <!-- 6. TEMPLATE LIBRARY -->
-      <section id="tab-templates" class="tab-content max-w-6xl">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-3xl font-black text-white tracking-tight">Koleksi Template Copywriting</h2>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div><h3 class="text-sm font-black text-emerald-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="message-circle"></i> Template WhatsApp</h3>
-            <div class="space-y-4">
-              <div class="glass-panel !p-5 group cursor-pointer hover:border-emerald-500/50" onclick="copyTemplate(this, 'Halo {{nama}}! 👋\n\nTerima kasih sudah mendaftar di program kami. Pendaftaran kamu sudah berhasil diamankan.\n\nSimpan nomor WA ini untuk update informasi eksklusif selanjutnya ya!\n\nSalam hangat,\nTim iMersConnect')">
-                <h4 class="text-white font-bold text-sm mb-2">1. Welcome Message (Pendaftaran Sukses)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">Halo {{nama}}! 👋 Terima kasih sudah mendaftar di program kami...</p>
-              </div>
-              <div class="glass-panel !p-5 group cursor-pointer hover:border-emerald-500/50" onclick="copyTemplate(this, 'Pengingat Spesial untuk {{nama}} 🚨\n\nJangan lupa, sesi live eksklusif kita akan dimulai dalam waktu 15 Menit lagi!\n\nKlik link di bawah untuk masuk ke ruangan sekarang:\n{{link}}\n\nSampai jumpa di dalam!')">
-                <h4 class="text-white font-bold text-sm mb-2">2. Reminder Event (15 Menit)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">Pengingat Spesial untuk {{nama}} 🚨 Jangan lupa, sesi live eksklusif...</p>
-              </div>
-            </div>
-          </div>
-          <div><h3 class="text-sm font-black text-indigo-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="mail"></i> Template Email HTML</h3>
-            <div class="space-y-4">
-              <div class="glass-panel !p-5 group cursor-pointer hover:border-indigo-500/50" onclick="copyTemplate(this, '<div style=\'font-family:sans-serif; color:#333;\'>\n  <h2 style=\'color:#10b981;\'>Selamat Datang, {{nama}}!</h2>\n  <p>Pendaftaran Anda telah berhasil kami terima di sistem database kami.</p>\n  <a href=\'{{link}}\' style=\'display:inline-block; padding:12px 24px; background:#6366f1; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;\'>Akses Dashboard</a>\n</div>')">
-                <h4 class="text-white font-bold text-sm mb-2">1. Standard Welcome Email (Tombol)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">&lt;div style='font-family:sans-serif; color:#333;'&gt;&lt;h2...&gt;</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. GATEWAY & API -->
+      <!-- TAB 7: GATEWAY & AUTH -->
       <section id="tab-gateway" class="tab-content max-w-5xl">
-        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">API & Security Hub</h2>
+        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Gateway & Auth</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div class="glass-panel"><h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="server" class="text-indigo-500"></i> WhatsApp Provider</h3>
+          <div class="glass-panel"><h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="server" class="text-indigo-500"></i> WhatsApp Gateway</h3>
             <div class="space-y-5">
               <div><label>API Token (Fonnte/Lainnya)</label><input type="password" id="waToken" class="input-pro"></div>
               <div><label>Nomor Admin (Pengirim)</label><input type="text" id="waSender" class="input-pro" placeholder="628xxxxxxx"></div>
@@ -312,25 +301,25 @@
           </div>
           <div class="glass-panel border-rose-500/30"><h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="shield-alert" class="text-rose-500"></i> Stealth Security</h3>
             <div class="space-y-5">
-              <div><label>Jumlah Klik Rahasia (Login)</label><input type="number" id="stealthClickCount" class="input-pro" placeholder="7"></div>
+              <div><label>Jumlah Klik Rahasia (Login Admin)</label><input type="number" id="stealthClickCount" class="input-pro" placeholder="7"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 8. GLOBAL BRANDING -->
+      <!-- TAB 8: GLOBAL BRANDING -->
       <section id="tab-global" class="tab-content max-w-5xl">
-        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Global Branding Engine</h2>
+        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Global Settings & Branding</h2>
         <div class="glass-panel mb-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div><label>Nama Brand Master</label><input type="text" id="appName" class="input-pro" placeholder="iMersConnect"></div>
+            <div><label>Nama Brand Master (Fallback)</label><input type="text" id="appName" class="input-pro" placeholder="iMersConnect"></div>
             <div><label>Web Deployment URL (Vercel/Github)</label><input type="text" id="websiteUrl" class="input-pro" placeholder="https://domain.com"></div>
-            <div><label>Logo Utama (URL)</label><input type="text" id="logoUrl" class="input-pro"></div>
-            <div><label>Global Redirect (Success Page)</label><input type="text" id="redirectUrl" class="input-pro"></div>
+            <div><label>Logo Utama URL (Fallback)</label><input type="text" id="logoUrl" class="input-pro"></div>
+            <div><label>Global Redirect URL (Success Page)</label><input type="text" id="redirectUrl" class="input-pro" placeholder="https://domain.com/thanks"></div>
           </div>
         </div>
         <div class="glass-panel mb-8">
-           <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="type" class="text-emerald-500"></i> Global Typography Base</h3>
+           <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="type" class="text-emerald-500"></i> Global Typography & Default Texts</h3>
            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
              <div><label>Font Size Default (px)</label><input type="number" id="globalFontSize" class="input-pro" placeholder="38"></div>
              <div><label>Font Family</label><select id="globalFontFamily" class="input-pro bg-[#09090b]"><option value="Plus Jakarta Sans">Plus Jakarta Sans</option><option value="Poppins">Poppins</option><option value="Lora">Lora (Serif)</option></select></div>
@@ -353,6 +342,7 @@
     let campaigns = [];
     let sequences = [];
     let broadcasts = [];
+    let templates = { WA: [], EMAIL: [] };
     let stealthClicksTarget = 7;
     let clickCount = 0, clickTimer = null;
 
@@ -415,9 +405,7 @@
     }
 
     function logoutAdmin() {
-      if(confirm("Yakin ingin mengunci kembali dashboard ini?")) {
-        window.location.reload();
-      }
+      if(confirm("Yakin ingin mengunci kembali dashboard ini?")) window.location.reload();
     }
 
     // --- LOGIN ---
@@ -450,17 +438,17 @@
     function addCampaign() {
       campaigns.push({ 
         id: `CAMP_${Math.floor(Math.random()*1000)}`, 
-        appName: 'Event Baru', 
+        appName: 'Campaign Baru', 
         logoUrl: '',
-        formHeading: 'Daftar Sekarang',
-        tagline: '',
+        headline: 'Daftar Sekarang',
+        subheadline: '',
         theme: 'midnight', 
         layout: 'center', 
-        productImageUrl: '',
-        btnText: 'DAPATKAN AKSES',
-        customBtnColor: '#10b981',
-        customBtnText: '#ffffff',
-        customTextColor: '#ffffff'
+        imageUrl: '',
+        ctaText: 'DAPATKAN AKSES',
+        ctaColor: '#10b981',
+        ctaTextColor: '#ffffff',
+        formTextColor: '#ffffff'
       });
       renderCampaigns();
       populateSeqSelect();
@@ -473,7 +461,7 @@
     function renderCampaigns() {
       const area = document.getElementById('campaignListArea');
       area.innerHTML = '';
-      if(document.getElementById('statSeqs')) document.getElementById('statSeqs').innerText = campaigns.length;
+      if(document.getElementById('statCamps')) document.getElementById('statCamps').innerText = campaigns.length;
       
       campaigns.forEach((c, idx) => {
         area.innerHTML += `
@@ -482,18 +470,18 @@
             
             <div class="grid grid-cols-2 gap-4">
               <div><label class="!text-indigo-400">Campaign ID (Slug URL)</label><input type="text" class="input-pro font-bold !text-indigo-400 !bg-[#18181b]" value="${c.id}" oninput="campaigns[${idx}].id = this.value; populateSeqSelect()"></div>
-              <div><label>Brand / Nama Display</label><input type="text" class="input-pro" value="${c.appName}" oninput="campaigns[${idx}].appName = this.value"></div>
+              <div><label>Brand / Display Name</label><input type="text" class="input-pro" value="${c.appName}" oninput="campaigns[${idx}].appName = this.value"></div>
             </div>
+
+            <div><label>Icon / Logo URL (PNG/JPG)</label><input type="text" class="input-pro" value="${c.logoUrl || ''}" placeholder="https://domain.com/logo.png" oninput="campaigns[${idx}].logoUrl = this.value"></div>
 
             <div class="grid grid-cols-2 gap-4">
-              <div><label>Headline Form</label><input type="text" class="input-pro" value="${c.formHeading || ''}" placeholder="Daftar Sekarang" oninput="campaigns[${idx}].formHeading = this.value"></div>
-              <div><label>Tagline / Subheadline</label><input type="text" class="input-pro" value="${c.tagline || ''}" placeholder="Kosongkan jika tdk ada" oninput="campaigns[${idx}].tagline = this.value"></div>
+              <div><label>Headline Form</label><input type="text" class="input-pro" value="${c.headline || ''}" placeholder="Daftar Sekarang" oninput="campaigns[${idx}].headline = this.value"></div>
+              <div><label>Subheadline (Tagline)</label><input type="text" class="input-pro" value="${c.subheadline || ''}" placeholder="Kosongkan jika tdk ada" oninput="campaigns[${idx}].subheadline = this.value"></div>
             </div>
 
-            <div><label>Logo URL (PNG/JPG Khusus Campaign)</label><input type="text" class="input-pro" value="${c.logoUrl || ''}" placeholder="https://domain.com/logo.png" oninput="campaigns[${idx}].logoUrl = this.value"></div>
-
             <div class="grid grid-cols-2 gap-4 border-y border-[#27272a] py-5">
-               <div><label>Theme Latar Preset</label>
+               <div><label>Theme Preset</label>
                   <select class="input-pro bg-[#09090b]" onchange="campaigns[${idx}].theme = this.value">
                     <option value="midnight" ${c.theme==='midnight'?'selected':''}>Midnight Dark</option>
                     <option value="clean" ${c.theme==='clean'?'selected':''}>Clean White</option>
@@ -504,21 +492,21 @@
                     <option value="rose" ${c.theme==='rose'?'selected':''}>Elegant Rose</option>
                   </select>
                </div>
-               <div><label>Layout Page</label><select class="input-pro bg-[#09090b]" onchange="campaigns[${idx}].layout = this.value"><option value="center" ${c.layout==='center'?'selected':''}>Tengah (Center)</option><option value="split" ${c.layout==='split'?'selected':''}>Kiri/Kanan (Split)</option></select></div>
+               <div><label>Layout Page</label><select class="input-pro bg-[#09090b]" onchange="campaigns[${idx}].layout = this.value"><option value="center" ${c.layout==='center'?'selected':''}>Center (Tengah)</option><option value="split" ${c.layout==='split'?'selected':''}>Split (Kiri/Kanan)</option></select></div>
             </div>
 
-            <div><label>Optional Image URL (Jika Layout Split)</label><input type="text" class="input-pro" value="${c.productImageUrl || ''}" placeholder="URL Gambar Produk" oninput="campaigns[${idx}].productImageUrl = this.value"></div>
+            <div><label>Optional Image URL (Untuk Layout Split)</label><input type="text" class="input-pro" value="${c.imageUrl || ''}" placeholder="URL Gambar Produk" oninput="campaigns[${idx}].imageUrl = this.value"></div>
 
             <div class="grid grid-cols-2 gap-4">
-              <div><label>Teks Tombol CTA</label><input type="text" class="input-pro" value="${c.btnText || ''}" placeholder="DAPATKAN AKSES" oninput="campaigns[${idx}].btnText = this.value"></div>
-              <div><label class="!text-emerald-400">Warna Latar Tombol</label><input type="color" class="input-pro" value="${c.customBtnColor || '#10b981'}" oninput="campaigns[${idx}].customBtnColor = this.value"></div>
+              <div><label>Teks Tombol CTA</label><input type="text" class="input-pro" value="${c.ctaText || ''}" placeholder="DAPATKAN AKSES" oninput="campaigns[${idx}].ctaText = this.value"></div>
+              <div><label class="!text-emerald-400">Warna Button (Color Picker)</label><input type="color" class="input-pro p-1 h-10" value="${c.ctaColor || '#10b981'}" oninput="campaigns[${idx}].ctaColor = this.value"></div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-              <div><label>Warna Teks Global Form</label><input type="color" class="input-pro" value="${c.customTextColor || '#ffffff'}" oninput="campaigns[${idx}].customTextColor = this.value"></div>
-              <div><label>Warna Teks Tombol</label><input type="color" class="input-pro" value="${c.customBtnText || '#ffffff'}" oninput="campaigns[${idx}].customBtnText = this.value"></div>
+              <div><label class="!text-emerald-400">Warna Teks Form</label><input type="color" class="input-pro p-1 h-10" value="${c.formTextColor || '#ffffff'}" oninput="campaigns[${idx}].formTextColor = this.value"></div>
+              <div><label class="!text-emerald-400">Warna Teks Button</label><input type="color" class="input-pro p-1 h-10" value="${c.ctaTextColor || '#ffffff'}" oninput="campaigns[${idx}].ctaTextColor = this.value"></div>
             </div>
-
+            
             <button class="btn-secondary w-full justify-center mt-2" onclick="alert('Link Publik: '+document.getElementById('websiteUrl').value+'/?campaign='+campaigns[${idx}].id)"><i data-lucide="link" class="w-4 h-4"></i> SALIN LINK UNTUK CAMPAIGN INI</button>
           </div>
         `;
@@ -551,6 +539,7 @@
       const campId = document.getElementById('seqCampaignSelect').value;
       const area = document.getElementById('sequenceBuilderArea');
       area.innerHTML = '';
+      if(document.getElementById('statSeqs')) document.getElementById('statSeqs').innerText = sequences.length;
       
       const filtered = sequences.filter(s => s.campaignId === campId).sort((a,b) => a.step - b.step);
       
@@ -560,9 +549,7 @@
       }
 
       filtered.forEach((s) => {
-        // Cari index aslinya di array utama
         const realIdx = sequences.findIndex(x => x === s);
-        
         area.innerHTML += `
           <div class="sequence-step">
              <div class="flex items-center justify-between mb-4">
@@ -571,30 +558,73 @@
              </div>
              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div><label>Kirim Melalui</label><select class="input-pro bg-[#09090b]" onchange="sequences[${realIdx}].channel = this.value"><option value="WA" ${s.channel==='WA'?'selected':''}>WhatsApp</option><option value="EMAIL" ${s.channel==='EMAIL'?'selected':''}>Email</option></select></div>
-                <div><label>Kapan Dikirim?</label><select class="input-pro bg-[#09090b]" onchange="sequences[${realIdx}].delayType = this.value"><option value="IMMEDIATE" ${s.delayType==='IMMEDIATE'?'selected':''}>Langsung (Saat Daftar)</option><option value="MINUTES" ${s.delayType==='MINUTES'?'selected':''}>X Menit Kemudian</option><option value="HOURS" ${s.delayType==='HOURS'?'selected':''}>X Jam Kemudian</option><option value="DAYS" ${s.delayType==='DAYS'?'selected':''}>X Hari Kemudian</option></select></div>
+                <div><label>Kapan Dikirim?</label><select class="input-pro bg-[#09090b]" onchange="sequences[${realIdx}].delayType = this.value"><option value="IMMEDIATE" ${s.delayType==='IMMEDIATE'?'selected':''}>Langsung</option><option value="MINUTES" ${s.delayType==='MINUTES'?'selected':''}>X Menit Kemudian</option><option value="HOURS" ${s.delayType==='HOURS'?'selected':''}>X Jam Kemudian</option><option value="DAYS" ${s.delayType==='DAYS'?'selected':''}>X Hari Kemudian</option></select></div>
                 <div><label>Nilai Waktu (X)</label><input type="number" class="input-pro" value="${s.delayValue}" oninput="sequences[${realIdx}].delayValue = this.value" ${s.delayType==='IMMEDIATE'?'disabled opacity-50':''}></div>
              </div>
-             <div><label>Template Pesan</label><textarea rows="3" class="input-pro font-mono text-xs" oninput="sequences[${realIdx}].msg = this.value" placeholder="Isi pesan / HTML Email...">${s.msg}</textarea></div>
+             <div><label>Isi Pesan (Atau Copy dari Template Manager)</label><textarea rows="3" class="input-pro font-mono text-xs" oninput="sequences[${realIdx}].msg = this.value" placeholder="Tulis atau paste template dari Template Manager di sini...">${s.msg}</textarea></div>
           </div>
         `;
       });
       lucide.createIcons();
     }
 
+    // --- TEMPLATE MANAGER ---
+    function addTemplate(type) {
+      const name = prompt("Nama Template Baru:");
+      if(!name) return;
+      templates[type].push({ name, content: '' });
+      renderTemplates();
+    }
+
+    function removeTemplate(type, idx) {
+      if(confirm("Hapus template ini?")) {
+        templates[type].splice(idx, 1);
+        renderTemplates();
+      }
+    }
+
+    function copyFromTemplateManager(btn, idx, type) {
+      const textToCopy = templates[type][idx].content;
+      navigator.clipboard.writeText(textToCopy);
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> TERSALIN';
+      btn.classList.add('!text-emerald-500');
+      lucide.createIcons();
+      setTimeout(() => { 
+        btn.innerHTML = originalHtml; 
+        btn.classList.remove('!text-emerald-500');
+        lucide.createIcons(); 
+      }, 1500);
+    }
+
+    function renderTemplates() {
+      let count = templates.WA.length + templates.EMAIL.length;
+      if(document.getElementById('statTpls')) document.getElementById('statTpls').innerText = count;
+
+      ['WA', 'EMAIL'].forEach(type => {
+        const container = document.getElementById(`${type.toLowerCase()}TemplateList`);
+        container.innerHTML = '';
+        if(templates[type].length === 0) container.innerHTML = '<p class="text-xs text-zinc-500 italic">Belum ada template yang disimpan.</p>';
+
+        templates[type].forEach((t, i) => {
+          container.innerHTML += `
+            <div class="border border-[#27272a] p-5 rounded-xl bg-[#09090b] relative group">
+              <button onclick="removeTemplate('${type}', ${i})" class="absolute top-4 right-4 text-zinc-600 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+              <input value="${t.name}" class="input-pro mb-3 font-bold !bg-[#18181b] !border-none w-[85%]" oninput="templates['${type}'][${i}].name = this.value" placeholder="Nama Template">
+              <textarea class="input-pro h-24 text-xs font-mono mb-3" oninput="templates['${type}'][${i}].content = this.value" placeholder="Tulis isi pesan di sini... gunakan {{nama}} utk personalisasi">${t.content}</textarea>
+              <button onclick="copyFromTemplateManager(this, ${i}, '${type}')" class="text-[10px] font-bold text-zinc-400 hover:text-white uppercase tracking-widest flex items-center gap-2 transition-colors"><i data-lucide="copy" class="w-4 h-4"></i> Copy Template Ini</button>
+            </div>
+          `;
+        });
+      });
+      lucide.createIcons();
+    }
+
     // --- BROADCAST ENGINE ---
     function saveBroadcast() {
-      const bc = {
-        id: `BC_${Math.floor(Math.random()*1000)}`,
-        channel: document.getElementById('bcChannel').value,
-        tag: document.getElementById('bcTag').value,
-        time: document.getElementById('bcTime').value || 'SEKARANG',
-        msg: document.getElementById('bcMessage').value
-      };
+      const bc = { id: `BC_${Math.floor(Math.random()*1000)}`, channel: document.getElementById('bcChannel').value, tag: document.getElementById('bcTag').value, time: document.getElementById('bcTime').value || 'SEKARANG', msg: document.getElementById('bcMessage').value };
       if(!bc.msg) return alert("Pesan tidak boleh kosong!");
-      broadcasts.push(bc);
-      document.getElementById('bcMessage').value = '';
-      renderBroadcasts();
-      alert("Dimasukkan ke antrean! Jangan lupa SAVE ALL CHANGES.");
+      broadcasts.push(bc); document.getElementById('bcMessage').value = ''; renderBroadcasts();
     }
     
     function removeBroadcast(idx) { broadcasts.splice(idx, 1); renderBroadcasts(); }
@@ -602,19 +632,17 @@
     function renderBroadcasts() {
       const area = document.getElementById('bcQueueList');
       area.innerHTML = '';
-      document.getElementById('statBc').innerText = broadcasts.length;
-      
-      if(broadcasts.length === 0) area.innerHTML = '<p class="text-xs text-zinc-600 italic">Tidak ada antrean.</p>';
+      if(broadcasts.length === 0) area.innerHTML = '<p class="text-xs text-zinc-600 italic">Tidak ada antrean broadcast.</p>';
       
       broadcasts.forEach((b, idx) => {
         area.innerHTML += `
-          <div class="p-4 border border-[#27272a] rounded-xl relative group">
-            <button onclick="removeBroadcast(${idx})" class="absolute top-2 right-2 text-zinc-600 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-4 h-4"></i></button>
-            <div class="flex items-center gap-2 mb-2">
+          <div class="p-5 border border-[#27272a] rounded-xl relative group glass-panel !p-5 hover:border-rose-500/50 transition-colors">
+            <button onclick="removeBroadcast(${idx})" class="absolute top-4 right-4 text-zinc-600 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <div class="flex items-center gap-2 mb-3">
               <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-400">${b.channel}</span>
               <span class="text-[9px] font-bold text-zinc-400 uppercase">Tag: ${b.tag || 'ALL'}</span>
             </div>
-            <p class="text-xs text-white mb-2 line-clamp-2">${b.msg}</p>
+            <p class="text-xs text-white mb-3 line-clamp-3">${b.msg}</p>
             <p class="text-[9px] text-zinc-500"><i data-lucide="clock" class="w-3 h-3 inline"></i> ${b.time}</p>
           </div>
         `;
@@ -622,42 +650,35 @@
       lucide.createIcons();
     }
 
-    // --- COPY TEMPLATE ---
-    function copyTemplate(el, text) {
-      navigator.clipboard.writeText(text);
-      const originalHtml = el.innerHTML;
-      el.innerHTML = '<div class="flex items-center justify-center h-full w-full text-emerald-500 font-black tracking-widest"><i data-lucide="check-circle" class="w-8 h-8 mr-2"></i> TERSALIN</div>';
-      lucide.createIcons();
-      setTimeout(() => { el.innerHTML = originalHtml; lucide.createIcons(); }, 1500);
-    }
-
     // --- SAVE & LOAD DATA ---
     async function handleSave() {
       const btn = document.getElementById('saveBtnMaster'), old = btn.innerHTML;
       btn.disabled = true; btn.innerHTML = "<i data-lucide='loader-2' class='animate-spin w-4 h-4'></i> SAVING..."; lucide.createIcons();
-      
-      document.getElementById('loading-overlay').classList.remove('hidden');
-      document.getElementById('loading-overlay').style.opacity = '1';
+      document.getElementById('loading-overlay').classList.remove('hidden'); document.getElementById('loading-overlay').style.opacity = '1';
 
       const payload = {
         action: 'save_settings',
-        appName: document.getElementById('appName').value, websiteUrl: document.getElementById('websiteUrl').value, 
-        logoUrl: document.getElementById('logoUrl').value, redirectUrl: document.getElementById('redirectUrl').value, 
-        formHeading: document.getElementById('formHeading').value, btnText: document.getElementById('btnText').value, 
-        globalFontSize: document.getElementById('globalFontSize').value, globalFontFamily: document.getElementById('globalFontFamily').value, 
         waToken: document.getElementById('waToken').value, waSender: document.getElementById('waSender').value, 
         stealthClickCount: document.getElementById('stealthClickCount').value,
+        redirectUrl: document.getElementById('redirectUrl').value,
+        appName: document.getElementById('appName').value,
+        websiteUrl: document.getElementById('websiteUrl').value,
+        logoUrl: document.getElementById('logoUrl').value,
+        globalFontSize: document.getElementById('globalFontSize').value,
+        globalFontFamily: document.getElementById('globalFontFamily').value,
+        formHeading: document.getElementById('formHeading').value,
+        btnText: document.getElementById('btnText').value,
         
-        // Data Dinamis Array JSON (Akan disimpan sebagai string di Settings)
+        // Simpan Data Struktur JS jadi String
         campaignSettings: JSON.stringify(campaigns),
         sequencesData: JSON.stringify(sequences),
-        broadcastData: JSON.stringify(broadcasts)
+        broadcastData: JSON.stringify(broadcasts),
+        templatesData: JSON.stringify(templates)
       };
       
       try {
         await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-        btn.classList.replace('btn-glow', 'bg-emerald-600');
-        btn.innerHTML = "<i data-lucide='check' class='w-4 h-4'></i> SYNC SUCCESS!";
+        btn.classList.replace('btn-glow', 'bg-emerald-600'); btn.innerHTML = "<i data-lucide='check' class='w-4 h-4'></i> SYNC SUCCESS!";
       } catch(e) { alert("Gagal menyimpan ke server Database!"); }
       finally { 
         lucide.createIcons();
@@ -667,28 +688,29 @@
     }
 
     async function loadSettings() {
-      document.getElementById('loading-overlay').classList.remove('hidden');
-      document.getElementById('loading-overlay').style.opacity = '1';
-      
+      document.getElementById('loading-overlay').classList.remove('hidden'); document.getElementById('loading-overlay').style.opacity = '1';
       try {
         const res = await fetch(`${WEB_APP_URL}?action=getSettings`);
         const data = await res.json();
         
-        document.getElementById('appName').value = data.appName || ""; document.getElementById('websiteUrl').value = data.websiteUrl || "";
-        document.getElementById('logoUrl').value = data.logoUrl || ""; document.getElementById('redirectUrl').value = data.redirectUrl || "";
         document.getElementById('waToken').value = data.waToken || ""; document.getElementById('waSender').value = data.waSender || "";
         document.getElementById('stealthClickCount').value = data.stealthClickCount || "7";
-        document.getElementById('formHeading').value = data.formHeading || ""; document.getElementById('btnText').value = data.btnText || "";
+        document.getElementById('redirectUrl').value = data.redirectUrl || "";
+        document.getElementById('appName').value = data.appName || ""; document.getElementById('websiteUrl').value = data.websiteUrl || "";
+        document.getElementById('logoUrl').value = data.logoUrl || ""; 
         document.getElementById('globalFontSize').value = data.globalFontSize || "38"; document.getElementById('globalFontFamily').value = data.globalFontFamily || "Plus Jakarta Sans";
+        document.getElementById('formHeading').value = data.formHeading || ""; document.getElementById('btnText').value = data.btnText || "";
         
+        // Parse JS Data
         if (data.campaignSettings) { try { campaigns = JSON.parse(data.campaignSettings); } catch(e) {} }
         if (data.sequencesData) { try { sequences = JSON.parse(data.sequencesData); } catch(e) {} }
         if (data.broadcastData) { try { broadcasts = JSON.parse(data.broadcastData); } catch(e) {} }
+        if (data.templatesData) { try { templates = JSON.parse(data.templatesData); } catch(e) {} }
         
         renderCampaigns();
         populateSeqSelect();
         renderBroadcasts();
-
+        renderTemplates();
       } catch(e) { console.error(e); } 
       finally { 
         document.getElementById('loading-overlay').style.opacity = '0';
