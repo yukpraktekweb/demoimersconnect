@@ -26,7 +26,7 @@
   <!-- ================= LAYAR KAMUFLASE (STEALTH MODE) ================= -->
   <!-- Orang biasa cuma bakal lihat ini -->
   <div id="stealthCover" class="absolute inset-0 bg-white z-[60] flex flex-col items-center justify-center transition-opacity duration-700">
-    <!-- INI TOMBOL RAHASIANYA (Klik 7x) -->
+    <!-- INI TOMBOL RAHASIANYA (Klik Dinamis via Backend) -->
     <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">
       iMersConnect
     </div>
@@ -109,12 +109,27 @@
             </div>
           </div>
 
-          <!-- Visual Customizer (V1 Restored) -->
+          <!-- Keamanan Ekstra (Stealth Mode) -->
           <div class="glass-card">
-            <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="layout" class="text-purple-500"></i> Landing Page UI Customizer</h3>
+            <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="ghost" class="text-slate-500"></i> Stealth Mode Settings</h3>
             <div class="space-y-4">
-              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nama Brand</label>
+              <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Jumlah Klik Rahasia (Membuka Login)</label>
+                <input type="number" id="stealthClickCount" class="input-control" placeholder="7">
+                <p class="text-[11px] text-slate-400 mt-2">Default: 7 kali klik. Angka ini ditarik dinamis dari backend Google Sheets.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Customizer (V1 Restored) -->
+          <div class="glass-card lg:col-span-2">
+            <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="layout" class="text-purple-500"></i> Landing Page UI Customizer</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nama Brand / Aplikasi</label>
                 <input type="text" id="appName" class="input-control" placeholder="iMersConnect">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Default Campaign ID</label>
+                <input type="text" id="defaultCampaign" class="input-control" placeholder="SEQ_GENERAL">
               </div>
               <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Logo URL (PNG/JPG)</label>
                 <input type="text" id="logoUrl" class="input-control" placeholder="https://domain.com/logo.png">
@@ -185,9 +200,18 @@
     // GANTI PAKAI URL APPS SCRIPT LO
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBeOGbT3HHIe0c8Yzzi-bcFFHVhiCf-p5w-nBnGGANzLb79LjWeX9W5yjexld0sQBW/exec";
 
-    // --- LOGIKA STEALTH MODE (7 CLICKS) ---
+    // --- LOGIKA STEALTH MODE (DINAMIS DARI BACKEND) ---
     let clickCount = 0;
     let clickTimer = null;
+    let targetClicks = 7; // Default sebelum fetch backend
+
+    // Fetch rahasia sebelum layar login dirender, biar tau target kliknya berapa
+    fetch(`${WEB_APP_URL}?action=getSettings`)
+      .then(res => res.json())
+      .then(data => {
+        if(data.stealthClickCount) targetClicks = parseInt(data.stealthClickCount);
+      })
+      .catch(err => console.error("Stealth init failed:", err));
 
     function triggerSecretLogin() {
       clickCount++;
@@ -196,7 +220,7 @@
       if (clickTimer) clearTimeout(clickTimer);
       clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
 
-      if (clickCount >= 7) {
+      if (clickCount >= targetClicks) {
         // Hapus layar 404
         const cover = document.getElementById('stealthCover');
         cover.style.opacity = '0';
@@ -306,12 +330,18 @@
       try {
         const res = await fetch(`${WEB_APP_URL}?action=getSettings`);
         const data = await res.json();
-        document.getElementById('appName').value = data.appName || '';
-        document.getElementById('redirectUrl').value = data.redirectUrl || '';
+        
+        // Stealth Settings
+        document.getElementById('stealthClickCount').value = data.stealthClickCount || '7';
+        
+        // Gateway Config
         document.getElementById('useService').value = data.useService || 'fonnte';
         document.getElementById('waSender').value = data.waSender || '';
         document.getElementById('waToken').value = data.waToken || '';
+        
         // UI Customizer Data
+        document.getElementById('appName').value = data.appName || '';
+        document.getElementById('defaultCampaign').value = data.defaultCampaign || 'SEQ_GENERAL';
         document.getElementById('logoUrl').value = data.logoUrl || '';
         document.getElementById('formHeading').value = data.formHeading || 'Daftar Sekarang';
         document.getElementById('tagline').value = data.tagline || '';
@@ -320,22 +350,25 @@
         document.getElementById('layout').value = data.layout || 'center';
         document.getElementById('productImageUrl').value = data.productImageUrl || '';
         document.getElementById('showProductImg').value = data.showProductImg || 'false';
+        document.getElementById('redirectUrl').value = data.redirectUrl || '';
       } catch (err) { console.error(err); }
     }
 
-    // SIMPAN SETTINGS KE BACKEND
+    // SIMPAN SEMUA SETTINGS KE BACKEND
     async function saveSettings() {
       const btn = document.getElementById('saveBtn');
       btn.innerText = "Menyimpan..."; btn.disabled = true;
 
       const payload = {
         action: 'save_settings',
+        stealthClickCount: document.getElementById('stealthClickCount').value,
         appName: document.getElementById('appName').value,
         redirectUrl: document.getElementById('redirectUrl').value,
         useService: document.getElementById('useService').value,
         waSender: document.getElementById('waSender').value,
         waToken: document.getElementById('waToken').value,
-        // UI Data
+        // UI Data Multi-Dynamic
+        defaultCampaign: document.getElementById('defaultCampaign').value,
         logoUrl: document.getElementById('logoUrl').value,
         formHeading: document.getElementById('formHeading').value,
         tagline: document.getElementById('tagline').value,
@@ -352,9 +385,9 @@
           body: JSON.stringify(payload),
           headers: { "Content-Type": "text/plain;charset=utf-8" }
         });
-        alert("Pengaturan Berhasil Disimpan!");
+        alert("Pengaturan Berhasil Disimpan & Sinkron ke Backend!");
       } catch (err) {
-        alert("Terjadi kesalahan.");
+        alert("Terjadi kesalahan koneksi ke server.");
       } finally {
         btn.innerHTML = `<i data-lucide="save"></i> SIMPAN SEMUA PENGATURAN`;
         btn.disabled = false; lucide.createIcons();
