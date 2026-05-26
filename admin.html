@@ -19,147 +19,345 @@
     .input-control:focus { border-color: #10b981; background: white; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
     .tab-content { display: none; animation: fadeIn 0.5s ease; }
     .tab-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
-<body class="flex h-screen overflow-hidden">
-  
-  <!-- Sidebar -->
-  <aside class="w-72 bg-white border-r border-slate-200 flex flex-col p-6 z-20 shadow-xl">
-    <div class="flex items-center gap-4 mb-12">
-      <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-lg"><i data-lucide="zap"></i></div>
-      <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">iMers<span class="text-emerald-500">Connect</span></h1>
+<body class="h-screen overflow-hidden bg-slate-50 relative">
+
+  <!-- ================= LAYAR KAMUFLASE (STEALTH MODE) ================= -->
+  <!-- Orang biasa cuma bakal lihat ini -->
+  <div id="stealthCover" class="absolute inset-0 bg-white z-[60] flex flex-col items-center justify-center transition-opacity duration-700">
+    <!-- INI TOMBOL RAHASIANYA (Klik 7x) -->
+    <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">
+      iMersConnect
     </div>
-    
-    <nav class="flex-1 space-y-2">
-      <div onclick="switchTab('dashboard')" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</div>
-      <div onclick="switchTab('sequences')" class="nav-item" id="nav-sequences"><i data-lucide="git-merge"></i> Auto Sequences</div>
-      <div onclick="switchTab('broadcast')" class="nav-item" id="nav-broadcast"><i data-lucide="radio"></i> Broadcasts</div>
-      <div onclick="switchTab('subscribers')" class="nav-item" id="nav-subscribers"><i data-lucide="users"></i> Subscribers</div>
-      <div onclick="switchTab('settings')" class="nav-item" id="nav-settings"><i data-lucide="settings"></i> Settings</div>
-    </nav>
-
-    <div class="mt-auto pt-6 border-t border-slate-100 text-xs font-bold text-slate-400 text-center uppercase tracking-widest">
-      SaaS Engine v1.0
+    <div class="text-center opacity-40">
+      <h1 class="text-6xl font-black text-slate-300 mb-2">404</h1>
+      <p class="text-slate-500 font-medium">System Access Denied or Page Not Found.</p>
     </div>
-  </aside>
+  </div>
 
-  <!-- Main Content -->
-  <main class="flex-1 overflow-y-auto bg-slate-50 p-10 relative">
-    
-    <!-- Dashboard Tab -->
-    <section id="tab-dashboard" class="tab-content active">
-      <h2 class="text-3xl font-black mb-8 text-slate-800">Overview Panel</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-        <div class="glass-card">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">Total Subscribers</div>
-          <div class="text-5xl font-black text-emerald-600">--</div>
-        </div>
-        <div class="glass-card">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">Active Sequences</div>
-          <div class="text-5xl font-black text-indigo-600">--</div>
-        </div>
-        <div class="glass-card">
-          <div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">Messages Sent (WA)</div>
-          <div class="text-5xl font-black text-blue-600">--</div>
-        </div>
+  <!-- ================= LOGIN SCREEN (Secure Backend Verification) ================= -->
+  <!-- Awalnya disembunyikan pakai 'hidden' -->
+  <div id="loginScreen" class="absolute inset-0 bg-slate-900 z-50 hidden items-center justify-center p-4 transition-opacity duration-500 opacity-0">
+    <div class="bg-white p-10 rounded-[2rem] max-w-sm w-full shadow-2xl text-center transform scale-95 transition-transform duration-500" id="loginBox">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-500 rounded-2xl mx-auto flex items-center justify-center mb-6">
+        <i data-lucide="lock" class="w-8 h-8"></i>
       </div>
-      <div class="glass-card">
-        <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2"><i data-lucide="shield-alert" class="w-5 h-5 text-amber-500"></i> Setup Assistant</h3>
-        <p class="text-sm text-slate-600 mb-4">Sistem <strong>iMersConnect</strong> membutuhkan inisiasi database untuk pertama kali. Pastikan Anda telah memasang Triggers di Apps Script untuk menjalankan <code>runAutomationScheduler</code> secara berkala.</p>
-        <button onclick="google.script.run.setupDatabaseV2(); alert('Database setup triggered!')" class="btn-primary flex items-center gap-2"><i data-lucide="database"></i> Install DB / Repair Tables</button>
-      </div>
-    </section>
-
-    <!-- Sequences Tab -->
-    <section id="tab-sequences" class="tab-content">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-black text-slate-800">Automation Sequences</h2>
-        <button class="btn-primary">+ New Sequence</button>
-      </div>
-      <div class="glass-card">
-        <p class="text-slate-500 italic">Data sequence sekarang diatur melalui database Spreadsheet Anda. Pengaturan UI di sini sedang dalam pengembangan.</p>
-      </div>
-    </section>
-
-    <!-- Broadcast Tab -->
-    <section id="tab-broadcast" class="tab-content">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-black text-slate-800">Broadcast Management</h2>
-        <button class="btn-primary">+ New Broadcast</button>
-      </div>
-      <div class="glass-card">
-        <p class="text-slate-500 italic">Data broadcast sekarang diatur melalui database Spreadsheet Anda. Pengaturan UI di sini sedang dalam pengembangan.</p>
-      </div>
-    </section>
-    
-    <!-- Subscribers Tab -->
-    <section id="tab-subscribers" class="tab-content">
-      <h2 class="text-3xl font-black mb-8 text-slate-800">Subscriber Management</h2>
-      <div class="glass-card overflow-hidden">
-        <p class="text-slate-500 italic">Buka tab "Subscribers" di Spreadsheet yang terhubung untuk melihat log pendaftar secara real-time.</p>
-      </div>
-    </section>
-
-    <!-- Settings Tab (Standard - No BYOK yet) -->
-    <section id="tab-settings" class="tab-content">
-      <h2 class="text-3xl font-black mb-8 text-slate-800">System Settings</h2>
+      <h2 class="text-2xl font-black text-slate-800 mb-2">iMersConnect</h2>
+      <p class="text-slate-500 text-sm mb-8">Login untuk mengakses SaaS Admin</p>
       
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Global Setup -->
-        <div class="glass-card">
-          <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="globe" class="w-5 h-5 text-emerald-500"></i> Global App Settings</h3>
-          <div class="mb-4">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Nama Brand/Aplikasi</label>
-            <input type="text" id="appName" placeholder="iMersConnect" class="input-control">
-          </div>
-          <div class="mb-6">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Redirect URL (Global)</label>
-            <input type="text" id="redirectUrl" placeholder="https://domain.com/thanks" class="input-control">
-          </div>
-        </div>
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <input type="email" id="loginEmail" required placeholder="admin@email.com" class="input-control text-center font-medium">
+        <input type="password" id="loginPassword" required placeholder="Password..." class="input-control text-center text-lg tracking-widest">
+        <button type="submit" id="btnLogin" class="btn-primary w-full">LOGIN SECURE</button>
+      </form>
+      <p id="loginError" class="text-rose-500 text-xs mt-4 font-bold hidden"></p>
+    </div>
+  </div>
 
-        <!-- Gateway Setup -->
-        <div class="glass-card">
-          <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="message-square" class="w-5 h-5 text-blue-500"></i> Gateway API Configuration</h3>
-          <div class="mb-4">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pilih Provider WA</label>
-            <select id="useService" class="input-control">
-              <option value="fonnte">Fonnte</option>
-              <option value="starsender">StarSender</option>
-              <option value="xsender">XSender</option>
-            </select>
-          </div>
-          <div class="mb-6">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">API Token</label>
-            <input type="password" id="waToken" placeholder="Masukkan API Token Gateway Anda" class="input-control">
-          </div>
-        </div>
+  <!-- ================= MAIN DASHBOARD ================= -->
+  <div id="mainDashboard" class="flex h-full w-full hidden">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col p-6 z-20 shadow-xl overflow-y-auto">
+      <div class="flex items-center gap-4 mb-12">
+        <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-lg shrink-0"><i data-lucide="zap"></i></div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-slate-800">iMers<span class="text-emerald-500">Connect</span></h1>
       </div>
       
-      <div class="mt-8 text-right">
-         <button class="btn-primary inline-flex justify-center items-center gap-2 bg-blue-500 hover:bg-blue-600 shadow-blue-500/30"><i data-lucide="save"></i> Simpan Pengaturan</button>
-      </div>
-    </section>
+      <nav class="flex-1 space-y-2">
+        <div onclick="switchTab('dashboard')" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</div>
+        <div onclick="switchTab('sequences')" class="nav-item" id="nav-sequences"><i data-lucide="git-merge"></i> Auto Sequences</div>
+        <div onclick="switchTab('settings')" class="nav-item" id="nav-settings"><i data-lucide="settings"></i> Configuration</div>
+        <div onclick="switchTab('account')" class="nav-item" id="nav-account"><i data-lucide="shield"></i> Akun & Keamanan</div>
+      </nav>
+    </aside>
 
-  </main>
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-10 relative">
+      
+      <section id="tab-dashboard" class="tab-content active">
+        <h2 class="text-3xl font-black mb-8 text-slate-800">Overview Panel</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+          <div class="glass-card"><div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">Status Sistem</div><div class="text-3xl font-black text-emerald-600">ONLINE</div></div>
+          <div class="glass-card"><div class="text-slate-400 font-bold uppercase tracking-wider text-xs mb-2">Pengelola Database</div><div class="text-xl font-black text-blue-600">Google Sheets</div></div>
+        </div>
+      </section>
+
+      <section id="tab-sequences" class="tab-content">
+        <h2 class="text-3xl font-black mb-8 text-slate-800">Automation Data</h2>
+        <div class="glass-card"><p class="text-slate-500 italic">Data leads, sequences, & logs diatur melalui database Spreadsheet Anda secara real-time.</p></div>
+      </section>
+
+      <!-- TAB SETTINGS (KEMBALI DINAMIS) -->
+      <section id="tab-settings" class="tab-content">
+        <h2 class="text-3xl font-black mb-8 text-slate-800">SaaS Configuration</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Gateway API -->
+          <div class="glass-card">
+            <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="message-square" class="text-blue-500"></i> Gateway WhatsApp API</h3>
+            <div class="space-y-4">
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Provider WA</label>
+                <select id="useService" class="input-control"><option value="fonnte">Fonnte</option><option value="starsender">StarSender</option><option value="xsender">XSender</option></select>
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nomor Pengirim (62)</label>
+                <input type="text" id="waSender" class="input-control" placeholder="62812xxx">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">API Token</label>
+                <input type="password" id="waToken" class="input-control" placeholder="Token API Gateway">
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual Customizer (V1 Restored) -->
+          <div class="glass-card">
+            <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="layout" class="text-purple-500"></i> Landing Page UI Customizer</h3>
+            <div class="space-y-4">
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nama Brand</label>
+                <input type="text" id="appName" class="input-control" placeholder="iMersConnect">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Logo URL (PNG/JPG)</label>
+                <input type="text" id="logoUrl" class="input-control" placeholder="https://domain.com/logo.png">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Headline Form</label>
+                <input type="text" id="formHeading" class="input-control" placeholder="Daftar Sekarang">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Tagline/Subheadline</label>
+                <input type="text" id="tagline" class="input-control" placeholder="Dapatkan akses gratis hari ini!">
+              </div>
+              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Teks Tombol CTA</label>
+                <input type="text" id="btnText" class="input-control" placeholder="DAPATKAN AKSES">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced UI Settings -->
+        <div class="glass-card mb-8">
+           <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="palette" class="text-rose-500"></i> Tema & Layout Landing Page</h3>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Tema Warna</label>
+                <select id="theme" class="input-control"><option value="midnight">Midnight (Dark)</option><option value="clean">Clean (White)</option><option value="nature">Nature (Green)</option></select>
+             </div>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Layout Page</label>
+                <select id="layout" class="input-control"><option value="center">Center (Tengah)</option><option value="split">Split (Kiri-Kanan)</option></select>
+             </div>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Tampilkan Gambar?</label>
+                <select id="showProductImg" class="input-control"><option value="true">Ya, Tampilkan</option><option value="false">Sembunyikan</option></select>
+             </div>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">URL Gambar Produk</label>
+                <input type="text" id="productImageUrl" class="input-control" placeholder="URL Gambar Mockup">
+             </div>
+             <div class="lg:col-span-4"><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Redirect URL (Setelah Daftar)</label>
+                <input type="text" id="redirectUrl" class="input-control" placeholder="https://domain.com/thanks">
+             </div>
+           </div>
+        </div>
+
+        <div class="text-right">
+           <button id="saveBtn" onclick="saveSettings()" class="btn-primary inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-8 py-4"><i data-lucide="save"></i> SIMPAN SEMUA PENGATURAN</button>
+        </div>
+      </section>
+
+      <!-- Account & Security Tab -->
+      <section id="tab-account" class="tab-content">
+        <h2 class="text-3xl font-black mb-8 text-slate-800">Akun & Keamanan</h2>
+        <div class="glass-card max-w-xl">
+          <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="key" class="text-amber-500"></i> Ganti Akses Login Admin</h3>
+          <form onsubmit="changePassword(event)" class="space-y-4">
+            <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Email Admin Baru</label>
+              <input type="email" id="newEmail" required class="input-control"></div>
+            <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Password Lama (Saat ini)</label>
+              <input type="password" id="oldPassword" required class="input-control"></div>
+            <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Password Baru</label>
+              <input type="password" id="newPassword" required class="input-control"></div>
+            <button type="submit" id="btnChangePass" class="btn-primary w-full mt-4 bg-amber-500 hover:bg-amber-600">UPDATE LOGIN</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <script>
     lucide.createIcons();
     
+    // GANTI PAKAI URL APPS SCRIPT LO
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBeOGbT3HHIe0c8Yzzi-bcFFHVhiCf-p5w-nBnGGANzLb79LjWeX9W5yjexld0sQBW/exec";
+
+    // --- LOGIKA STEALTH MODE (7 CLICKS) ---
+    let clickCount = 0;
+    let clickTimer = null;
+
+    function triggerSecretLogin() {
+      clickCount++;
+      
+      // Reset hitungan kalau kelamaan nggak diklik (jeda 2 detik)
+      if (clickTimer) clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+
+      if (clickCount >= 7) {
+        // Hapus layar 404
+        const cover = document.getElementById('stealthCover');
+        cover.style.opacity = '0';
+        
+        // Tampilkan Form Login
+        setTimeout(() => {
+          cover.style.display = 'none';
+          const loginScreen = document.getElementById('loginScreen');
+          const loginBox = document.getElementById('loginBox');
+          loginScreen.classList.remove('hidden');
+          loginScreen.classList.add('flex');
+          
+          // Animasi Muncul
+          setTimeout(() => {
+            loginScreen.style.opacity = '1';
+            loginBox.classList.remove('scale-95');
+            loginBox.classList.add('scale-100');
+          }, 50);
+        }, 700);
+
+        clickCount = 0; // reset
+      }
+    }
+    // --------------------------------------
+
+    // 1. PROSES LOGIN KE BACKEND
+    async function handleLogin(event) {
+      event.preventDefault();
+      const btn = document.getElementById('btnLogin');
+      const errorMsg = document.getElementById('loginError');
+      
+      btn.innerText = "Memverifikasi..."; btn.disabled = true;
+      errorMsg.classList.add('hidden');
+      
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'login',
+            email: document.getElementById('loginEmail').value,
+            password: document.getElementById('loginPassword').value
+          }),
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          document.getElementById('loginScreen').style.opacity = '0';
+          setTimeout(() => {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            loadSettings(); 
+          }, 500);
+        } else {
+          errorMsg.innerText = data.message;
+          errorMsg.classList.remove('hidden');
+        }
+      } catch(e) {
+        errorMsg.innerText = "Gagal terhubung ke server!";
+        errorMsg.classList.remove('hidden');
+      } finally {
+        btn.innerText = "LOGIN SECURE"; btn.disabled = false;
+      }
+    }
+
+    // 2. GANTI PASSWORD KE BACKEND
+    async function changePassword(event) {
+      event.preventDefault();
+      const btn = document.getElementById('btnChangePass');
+      btn.innerText = "Loading..."; btn.disabled = true;
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'change_password',
+            oldPassword: document.getElementById('oldPassword').value,
+            newEmail: document.getElementById('newEmail').value,
+            newPassword: document.getElementById('newPassword').value
+          }),
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        });
+        const data = await res.json();
+        if(data.success) {
+          alert("Akses Login berhasil diubah!");
+          document.getElementById('oldPassword').value = '';
+          document.getElementById('newPassword').value = '';
+        } else {
+          alert(data.message);
+        }
+      } catch(e) {
+        alert("Gagal menghubungi server.");
+      } finally {
+        btn.innerText = "UPDATE LOGIN"; btn.disabled = false;
+      }
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      
-      const tabElement = document.getElementById('tab-' + tabId);
-      const navElement = document.getElementById('nav-' + tabId);
-      
-      if (tabElement) {
-        tabElement.classList.add('active');
-      }
-      
-      if (navElement) {
-        navElement.classList.add('active');
+      if (document.getElementById('tab-' + tabId)) document.getElementById('tab-' + tabId).classList.add('active');
+      if (document.getElementById('nav-' + tabId)) document.getElementById('nav-' + tabId).classList.add('active');
+    }
+
+    // LOAD SETTINGS DARI BACKEND
+    async function loadSettings() {
+      try {
+        const res = await fetch(`${WEB_APP_URL}?action=getSettings`);
+        const data = await res.json();
+        document.getElementById('appName').value = data.appName || '';
+        document.getElementById('redirectUrl').value = data.redirectUrl || '';
+        document.getElementById('useService').value = data.useService || 'fonnte';
+        document.getElementById('waSender').value = data.waSender || '';
+        document.getElementById('waToken').value = data.waToken || '';
+        // UI Customizer Data
+        document.getElementById('logoUrl').value = data.logoUrl || '';
+        document.getElementById('formHeading').value = data.formHeading || 'Daftar Sekarang';
+        document.getElementById('tagline').value = data.tagline || '';
+        document.getElementById('btnText').value = data.btnText || 'DAPATKAN AKSES';
+        document.getElementById('theme').value = data.theme || 'midnight';
+        document.getElementById('layout').value = data.layout || 'center';
+        document.getElementById('productImageUrl').value = data.productImageUrl || '';
+        document.getElementById('showProductImg').value = data.showProductImg || 'false';
+      } catch (err) { console.error(err); }
+    }
+
+    // SIMPAN SETTINGS KE BACKEND
+    async function saveSettings() {
+      const btn = document.getElementById('saveBtn');
+      btn.innerText = "Menyimpan..."; btn.disabled = true;
+
+      const payload = {
+        action: 'save_settings',
+        appName: document.getElementById('appName').value,
+        redirectUrl: document.getElementById('redirectUrl').value,
+        useService: document.getElementById('useService').value,
+        waSender: document.getElementById('waSender').value,
+        waToken: document.getElementById('waToken').value,
+        // UI Data
+        logoUrl: document.getElementById('logoUrl').value,
+        formHeading: document.getElementById('formHeading').value,
+        tagline: document.getElementById('tagline').value,
+        btnText: document.getElementById('btnText').value,
+        theme: document.getElementById('theme').value,
+        layout: document.getElementById('layout').value,
+        productImageUrl: document.getElementById('productImageUrl').value,
+        showProductImg: document.getElementById('showProductImg').value
+      };
+
+      try {
+        await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        });
+        alert("Pengaturan Berhasil Disimpan!");
+      } catch (err) {
+        alert("Terjadi kesalahan.");
+      } finally {
+        btn.innerHTML = `<i data-lucide="save"></i> SIMPAN SEMUA PENGATURAN`;
+        btn.disabled = false; lucide.createIcons();
       }
     }
   </script>
