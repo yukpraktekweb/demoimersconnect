@@ -6,214 +6,241 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>iMersConnect | Lead Capture</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Pre-load Fonts Dinamis (Poppins, Plus Jakarta Sans, Lora) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  
   <style>
-    body { font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 50px 16px; opacity: 0; transition: opacity 0.8s, background 0.6s ease; overflow-x: hidden; text-transform: none !important; }
+    /* Transisi Halus Saat Font/Theme Berubah */
+    body { 
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+      padding: 50px 16px; opacity: 0; transition: opacity 0.8s, background 0.6s ease; overflow-x: hidden; text-transform: none !important; 
+    }
     
     /* 1. THEME: MIDNIGHT (Dark & Elegant) */
-    .theme-midnight { background-color: #0f172a; color: white; }
-    .theme-midnight .glass { background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5); }
-    .theme-midnight .input-control { background: #0f172a; color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
-    .theme-midnight .btn-cta { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
+    .theme-midnight { background-color: #09090b; color: #f4f4f5; background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05), transparent 50%); }
+    .theme-midnight .glass { background: #18181b; border: 1px solid #27272a; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7); }
+    .theme-midnight .input-control { background: #09090b; color: white; border: 1px solid #27272a; }
+    .theme-midnight .btn-cta { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3); }
 
     /* 2. THEME: CLEAN (Minimalist & Professional) */
     .theme-clean { background-color: #f8fafc; color: #0f172a; }
     .theme-clean .glass { background: white; border: 1px solid #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); }
     .theme-clean .input-control { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
-    .theme-clean .btn-cta { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4); }
-
-    /* 3. THEME: NATURE (Earthy & Trustworthy) */
-    .theme-nature { background-color: #022c22; color: white; }
-    .theme-nature .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px); }
-    .theme-nature .input-control { background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
-    .theme-nature .btn-cta { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3); }
-
-    /* 4. THEME: OCEAN (Tech & Fresh Gradient) */
-    .theme-ocean { background: linear-gradient(135deg, #0f172a 0%, #0891b2 100%); color: white; }
-    .theme-ocean .glass { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
-    .theme-ocean .input-control { background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
-    .theme-ocean .btn-cta { background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.4); }
-
-    /* 5. THEME: SUNSET (Vibrant & Energetic Gradient) */
-    .theme-sunset { background: linear-gradient(135deg, #4c1d95 0%, #e11d48 100%); color: white; }
-    .theme-sunset .glass { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(25px); box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
-    .theme-sunset .input-control { background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
-    .theme-sunset .btn-cta { background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4); }
+    .theme-clean .btn-cta { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4); }
 
     #mainWrapper { width: 100%; display: flex; flex-direction: column; transition: all 0.7s; max-width: 100%; margin-top: 1rem; }
     
-    #productImageWrapper { max-width: 440px; width: 100%; margin: 1.5rem auto; border-radius: 1.8rem; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.4); }
+    #productImageWrapper { max-width: 460px; width: 100%; margin: 1.5rem auto; border-radius: 1.8rem; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
     #productImage { width: 100%; height: auto; display: block; object-fit: contain; }
 
+    /* LAYOUT CENTER */
     .layout-center { align-items: center; text-align: center; }
-    .layout-center #contentSide { margin-bottom: 2rem; width: 100%; max-width: 650px; }
+    .layout-center #contentSide { margin-bottom: 2rem; width: 100%; max-width: 700px; }
     .layout-center .glass { max-width: 440px; width: 100%; margin: 0 auto; }
 
-    @media (min-width: 768px) {
-      .layout-split { flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 60px !important; max-width: 1100px !important; margin: 4rem auto !important; text-align: left !important; }
-      .layout-split #contentSide { width: 440px !important; text-align: center !important; display: flex !important; flex-direction: column !important; align-items: center !important; flex-shrink: 0 !important; }
+    /* LAYOUT SPLIT (Desktop Only) */
+    @media (min-width: 860px) {
+      .layout-split { flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 70px !important; max-width: 1100px !important; margin: 4rem auto !important; text-align: left !important; }
+      .layout-split #contentSide { width: 480px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; flex-shrink: 0 !important; }
       .layout-split #formSide { width: 440px !important; flex-shrink: 0 !important; }
-      .layout-split #productImageWrapper { margin-top: 2rem !important; }
+      .layout-split #productImageWrapper { margin-top: 2rem !important; margin-left: 0 !important; }
     }
 
-    .glass { border-radius: 1.8rem; padding: 2.25rem; position: relative; z-index: 10; }
-    .input-control { width: 100%; padding: 0.9rem 1.2rem; border-radius: 0.8rem; margin-top: 0.4rem; outline: none; transition: 0.3s ease; font-size: 15px; font-weight: 500; }
-    .input-control:focus { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15); }
+    .glass { border-radius: 1.8rem; padding: 2.5rem; position: relative; z-index: 10; transition: all 0.5s; }
+    .input-control { width: 100%; padding: 1rem 1.25rem; border-radius: 0.8rem; margin-top: 0.4rem; outline: none; transition: 0.3s ease; font-size: 15px; font-weight: 500; }
+    .input-control:focus { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); border-color: #10b981; }
 
-    .btn-cta { transition: all 0.5s; cursor: pointer; font-weight: 800; color: white; padding: 1.4rem; display: block; width: 100%; text-align: center; border-radius: 1rem; border: none; }
+    .btn-cta { transition: all 0.5s; cursor: pointer; font-weight: 800; color: white; padding: 1.25rem; display: block; width: 100%; text-align: center; border-radius: 1rem; border: none; letter-spacing: 0.05em; text-transform: uppercase; }
     .btn-cta:hover { transform: translateY(-3px); filter: brightness(1.1); }
+    .btn-cta:active { transform: translateY(1px); }
 
-    /* CUSTOM COLOR OVERRIDE DARI ADMIN */
-    :root {
-      --custom-text: inherit;
-      --custom-btn-bg: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      --custom-btn-text: white;
-    }
-    body.use-custom-colors { color: var(--custom-text) !important; }
-    body.use-custom-colors .glass h1, body.use-custom-colors .glass h2, body.use-custom-colors .glass p, body.use-custom-colors .glass label, body.use-custom-colors #contentSide h1, body.use-custom-colors #contentSide p { color: var(--custom-text) !important; }
-    body.use-custom-colors .btn-cta { background: var(--custom-btn-bg) !important; color: var(--custom-btn-text) !important; box-shadow: none !important; }
-
-    #loader-overlay { position: fixed; inset: 0; background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.7s ease; }
-    @keyframes fadeInSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-in { animation: fadeInSlide 0.9s forwards; }
+    #loader-overlay { position: fixed; inset: 0; background: #09090b; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+    @keyframes fadeInSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-in { animation: fadeInSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    
+    /* Dynamic Font Size Injection */
+    .dynamic-title { font-size: var(--title-fs, 2.5rem); line-height: 1.1; }
+    @media (min-width: 768px) { .dynamic-title { font-size: calc(var(--title-fs, 2.5rem) * 1.2); } }
   </style>
 </head>
 <body class="theme-midnight">
   
   <div id="loader-overlay">
     <div class="flex flex-col items-center gap-6">
-      <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-      <p class="text-[11px] font-black text-emerald-400 uppercase tracking-[0.4em] animate-pulse">Menghubungkan Database...</p>
+      <div class="w-12 h-12 border-4 border-emerald-500/20 rounded-full relative">
+        <div class="absolute -inset-1 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+      <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.5em] animate-pulse">Memuat Pengalaman...</p>
     </div>
   </div>
 
-  <div id="mainWrapper" class="layout-center animate-in">
+  <div id="mainWrapper" class="layout-center animate-in" style="opacity: 0;">
     <div id="contentSide" class="z-20 px-4 md:px-0">
       <div id="logoWrapper" class="hidden mb-6 md:mb-10">
-        <img id="dynamicLogo" src="" alt="" class="h-12 md:h-16 w-auto mx-auto object-contain">
+        <img id="dynamicLogo" src="" alt="Brand Logo" class="h-12 md:h-16 w-auto object-contain">
       </div>
       
-      <h1 id="dynamicAppName" class="font-black text-3xl md:text-5xl tracking-tighter mb-3 leading-tight">iMersConnect</h1>
-      <p id="dynamicTagline" class="text-[15px] md:text-lg font-medium opacity-80 leading-relaxed mx-auto max-w-md md:max-w-xl mb-4 px-2"></p>
+      <h1 id="dynamicAppName" class="font-black tracking-tight mb-4 dynamic-title">Loading...</h1>
+      <p id="dynamicTagline" class="text-[15px] md:text-lg font-medium opacity-70 leading-relaxed max-w-xl hidden"></p>
       
       <div id="productImageWrapper" class="hidden transform transition-all duration-1000 scale-95 opacity-0">
-        <img id="productImage" src="" alt="">
+        <img id="productImage" src="" alt="Product Showcase">
       </div>
     </div>
 
     <div id="formSide" class="w-full flex justify-center z-20 mt-8 md:mt-0 px-4">
-      <main class="glass w-full shadow-2xl">
+      <main class="glass w-full">
         <div id="formWrapper">
-          <div class="text-center mb-8 md:mb-10">
-            <h2 id="dynamicFormHeading" class="text-[18px] md:text-xl font-bold tracking-wider">Bergabung Sekarang</h2>
-            <div class="w-10 h-1 bg-current mx-auto mt-4 rounded-full opacity-60"></div>
+          <div class="text-center mb-8">
+            <h2 id="dynamicFormHeading" class="text-lg md:text-xl font-bold tracking-wide">Bergabung Sekarang</h2>
+            <div class="w-12 h-1 bg-current mx-auto mt-4 rounded-full opacity-20"></div>
           </div>
+          
           <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-4 md:space-y-5 text-left">
             <input type="hidden" name="action" value="new_lead">
+            <!-- Campaign Input akan diisi dinamis dari URL atau Default Server -->
             <input type="hidden" id="campaignInput" name="campaign" value="SEQ_GENERAL">
             
             <div>
-              <label class="text-[10px] font-bold opacity-60 ml-1 tracking-wide">Nama Lengkap</label>
-              <input type="text" name="nama" required placeholder="Tulis nama lengkap Anda" class="input-control">
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase">Nama Lengkap</label>
+              <input type="text" name="nama" required placeholder="Ketik nama Anda" class="input-control">
             </div>
             <div>
-              <label class="text-[10px] font-bold opacity-60 ml-1 tracking-wide">Alamat Email</label>
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase">Alamat Email</label>
               <input type="email" name="email" required placeholder="nama@email.com" class="input-control">
             </div>
             <div>
-              <label class="text-[10px] font-bold opacity-60 ml-1 tracking-wide">Nomor WhatsApp Aktif</label>
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase">Nomor WhatsApp Aktif</label>
               <input type="tel" name="wa" required placeholder="628xxxxxxxx" class="input-control">
             </div>
-            <button type="submit" id="submitBtn" class="btn-cta text-[17px] md:text-[19px] mt-6">DAPATKAN AKSES</button>
-            <div class="flex items-center justify-center gap-3 mt-8 opacity-25">
-              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-              <p class="text-[9px] font-bold tracking-widest uppercase">Secure Leads Data Protection</p>
+            
+            <button type="submit" id="submitBtn" class="btn-cta mt-8">
+              <span id="btnTextLabel">DAPATKAN AKSES</span>
+            </button>
+            
+            <div class="flex items-center justify-center gap-3 mt-8 opacity-40">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+              <p class="text-[9px] font-bold tracking-widest uppercase">Secure 256-bit Encrypted</p>
             </div>
           </form>
         </div>
         
-        <div id="successState" class="hidden text-center py-12 md:py-16 animate-in px-4">
+        <div id="successState" class="hidden text-center py-10 md:py-16 animate-in px-2">
           <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-emerald-500/20 shadow-2xl">
-            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400"></i>
+            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500"></i>
           </div>
-          <h2 class="text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter text-emerald-500">Berhasil!</h2>
-          <p class="opacity-80 text-sm md:text-[17px] leading-relaxed mb-10 font-medium">Data pendaftaran Anda telah diamankan. Harap tunggu pesan instruksi selanjutnya melalui WhatsApp/Email.</p>
+          <h2 class="text-3xl font-black mb-4 tracking-tight text-emerald-500">Berhasil!</h2>
+          <p class="opacity-80 text-sm md:text-base leading-relaxed mb-6 font-medium">Data Anda telah kami amankan. Silakan periksa WhatsApp / Email Anda dalam beberapa saat lagi untuk instruksi selanjutnya.</p>
         </div>
       </main>
     </div>
   </div>
 
-  <footer id="protectedFooter" class="mt-12 pb-8 text-center w-full z-5">
-    <p class="opacity-40 font-semibold tracking-wider text-[11px]">
-      &copy; 2026 <span id="footerBrandName">iMersConnect</span>. All Rights Reserved.
+  <footer id="protectedFooter" class="mt-16 pb-8 text-center w-full z-5 animate-in" style="opacity: 0;">
+    <p class="opacity-30 font-bold tracking-widest text-[10px] uppercase">
+      &copy; <span id="year">2026</span> <span id="footerBrand">iMersConnect</span>. All Rights Reserved.
     </p>
   </footer>
 
   <script>
-    // GANTI DENGAN URL DEPLOYMENT WEB APP LO
+    lucide.createIcons();
+    document.getElementById('year').innerText = new Date().getFullYear();
+    
+    // GANTI DENGAN URL DEPLOYMENT APPS SCRIPT LO
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBeOGbT3HHIe0c8Yzzi-bcFFHVhiCf-p5w-nBnGGANzLb79LjWeX9W5yjexld0sQBW/exec"; 
     
-    // Tarik parameter campaign dari URL kalau ada (?campaign=PROMO)
-    const campaignId = new URLSearchParams(window.location.search).get('campaign');
+    // Tarik parameter campaign dari URL kalau ada (?campaign=NAMACAMPAIGN)
+    const urlCampaignId = new URLSearchParams(window.location.search).get('campaign') || "";
     let redirectUrl = "";
 
     async function initializeApplication() {
       try {
         const response = await fetch(`${WEB_APP_URL}?action=getSettings`);
-        const data = await response.json();
+        const globalData = await response.json();
         
-        // Aplikasikan Tema & Layout Dinamis dari Admin
-        document.body.className = `theme-${data.theme || 'midnight'}`;
-        document.getElementById('mainWrapper').className = (data.layout === 'split') ? "layout-split animate-in" : "layout-center animate-in";
-        
-        // Aplikasikan Teks & Gambar
-        document.title = data.appName || "iMersConnect";
-        document.getElementById('dynamicAppName').innerText = data.appName || "iMersConnect";
-        document.getElementById('dynamicTagline').innerText = data.tagline || "";
-        document.getElementById('dynamicFormHeading').innerText = data.formHeading || "Daftar Sekarang";
-        document.getElementById('submitBtn').innerText = data.btnText || "DAPATKAN AKSES";
-        document.getElementById('footerBrandName').innerText = data.appName || "iMersConnect";
-        
-        // Logic multi-campaign: prioritas dari parameter URL, kalau kosong ambil dari default backend
-        document.getElementById('campaignInput').value = campaignId || data.defaultCampaign || "SEQ_GENERAL";
-        
-        redirectUrl = data.redirectUrl || "";
-
-        // SET WARNA BEBAS DARI ADMIN
-        if (data.customTextColor || data.customBtnColor) {
-          document.body.classList.add('use-custom-colors');
-          if (data.customTextColor) document.documentElement.style.setProperty('--custom-text', data.customTextColor);
-          if (data.customBtnColor) document.documentElement.style.setProperty('--custom-btn-bg', data.customBtnColor);
-          if (data.customBtnText) document.documentElement.style.setProperty('--custom-btn-text', data.customBtnText);
+        // SMART ROUTING: Cari pengaturan spesifik Campaign
+        let campData = {};
+        if(globalData.campaignSettings) {
+          try {
+            const campaignsArray = JSON.parse(globalData.campaignSettings);
+            // Cari yg ID-nya sama dengan parameter URL
+            campData = campaignsArray.find(c => c.id === urlCampaignId) || {};
+          } catch(e) { console.error("Error parsing campaign array"); }
         }
 
-        if (data.logoUrl) {
-          document.getElementById('dynamicLogo').src = data.logoUrl;
+        // Tentukan Final Data (Prioritas: Campaign -> Global -> Default Fallback)
+        const finalCampaignId = urlCampaignId || globalData.defaultCampaign || "SEQ_GENERAL";
+        document.getElementById('campaignInput').value = finalCampaignId;
+
+        const theme = campData.theme || 'midnight'; // Default V9 admin: midnight/clean
+        const layout = campData.layout || 'center';
+        
+        const appName = campData.appName || globalData.appName || "iMersConnect";
+        const logoUrl = campData.logoUrl || globalData.logoUrl || "";
+        const formHeading = campData.formHeading || globalData.formHeading || "Daftar Sekarang";
+        const btnText = campData.btnText || globalData.btnText || "DAPATKAN AKSES";
+        const tagline = campData.tagline || "";
+        const productImg = campData.productImageUrl || "";
+        redirectUrl = campData.redirect || globalData.redirectUrl || "";
+
+        const fontFam = globalData.globalFontFamily || "Plus Jakarta Sans";
+        const fontSizeStr = globalData.globalFontSize || "38";
+
+        // APLIKASIKAN KE HALAMAN HTML
+        document.body.style.fontFamily = `"${fontFam}", sans-serif`;
+        document.documentElement.style.setProperty('--title-fs', `${fontSizeStr}px`);
+        
+        document.body.className = `theme-${theme}`;
+        document.getElementById('mainWrapper').className = (layout === 'split') ? "layout-split" : "layout-center";
+        
+        document.title = appName;
+        document.getElementById('dynamicAppName').innerText = appName;
+        document.getElementById('dynamicFormHeading').innerText = formHeading;
+        document.getElementById('btnTextLabel').innerText = btnText;
+        document.getElementById('footerBrand').innerText = appName;
+
+        if (tagline) {
+          document.getElementById('dynamicTagline').innerText = tagline;
+          document.getElementById('dynamicTagline').classList.remove('hidden');
+        }
+
+        if (logoUrl) {
+          document.getElementById('dynamicLogo').src = logoUrl;
           document.getElementById('logoWrapper').classList.remove('hidden');
         }
 
-        if (String(data.showProductImg).toLowerCase() === 'true' && data.productImageUrl) {
-          document.getElementById('productImage').src = data.productImageUrl;
+        // Gambar hanya tampil kalau layout Split dan URL Gambar diisi
+        if (productImg && layout === 'split') {
+          document.getElementById('productImage').src = productImg;
           document.getElementById('productImageWrapper').classList.remove('hidden');
-          setTimeout(() => { document.getElementById('productImageWrapper').classList.add('scale-100', 'opacity-100'); }, 250);
+          setTimeout(() => { document.getElementById('productImageWrapper').classList.add('scale-100', 'opacity-100'); }, 200);
         }
 
-        // Hilangkan loader
+        // Animasi Tampil (Fade In)
         document.getElementById('loader-overlay').style.opacity = '0';
         setTimeout(() => { 
           document.getElementById('loader-overlay').remove(); 
-          document.body.style.opacity = '1'; 
-          lucide.createIcons(); 
-        }, 600);
+          document.getElementById('mainWrapper').style.opacity = '1'; 
+          document.getElementById('protectedFooter').style.opacity = '1'; 
+        }, 500);
 
-      } catch (err) { console.error("Gagal menarik data visual:", err); }
+      } catch (err) { 
+        console.error("Gagal menarik data dari server:", err); 
+        // Fallback Force Show
+        document.getElementById('loader-overlay').style.display = 'none';
+        document.getElementById('mainWrapper').style.opacity = '1'; 
+      }
     }
 
     async function handleSubmit(event) {
       event.preventDefault();
       const btn = document.getElementById('submitBtn');
-      btn.innerText = "MENGIRIM..."; btn.disabled = true;
+      const originalText = document.getElementById('btnTextLabel').innerText;
+      
+      document.getElementById('btnTextLabel').innerText = "MENGIRIM..."; 
+      btn.disabled = true;
       
       const payload = Object.fromEntries(new FormData(event.target).entries());
       
@@ -228,15 +255,16 @@
         setTimeout(() => {
           document.getElementById('formWrapper').classList.add('hidden');
           document.getElementById('successState').classList.remove('hidden');
-          lucide.createIcons();
         }, 400);
         
+        // Redirect jika diset di Admin
         if (redirectUrl) {
-          setTimeout(() => { window.location.href = redirectUrl; }, 4000);
+          setTimeout(() => { window.location.href = redirectUrl; }, 3500);
         }
       } catch (e) { 
-        btn.disabled = false; btn.innerText = "COBA LAGI"; 
-        alert("Gagal menghubungi server.");
+        btn.disabled = false; 
+        document.getElementById('btnTextLabel').innerText = originalText; 
+        alert("Gagal menghubungi server. Silakan coba lagi.");
       }
     }
 
