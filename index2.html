@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>iMersConnect | Lead Capture</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Pre-load Fonts Dinamis (Poppins, Plus Jakarta Sans, Lora) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    /* CSS VARIABLES UNTUK DYNAMIC COLOR INJECTION DARI ADMIN */
+    :root {
+      --btn-bg: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      --btn-text: #ffffff;
+      --form-text: inherit;
+    }
+
+    /* Transisi Halus Saat Font/Theme Berubah */
+    body { 
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
+      padding: 50px 16px; transition: background 0.6s ease, color 0.6s ease; overflow-x: hidden; text-transform: none !important; 
+      color: var(--form-text);
+    }
+    
+    h1, h2, p, label { transition: color 0.5s ease; }
+
+    /* 1. THEME: MIDNIGHT (Dark & Elegant) */
+    .theme-midnight { background-color: #09090b; color: #f4f4f5; background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05), transparent 50%); }
+    .theme-midnight .glass { background: #18181b; border: 1px solid #27272a; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7); }
+    .theme-midnight .input-control { background: #09090b; color: white; border: 1px solid #27272a; }
+    
+    /* 2. THEME: CLEAN (Minimalist & Professional) */
+    .theme-clean { background-color: #f8fafc; color: #0f172a; }
+    .theme-clean .glass { background: white; border: 1px solid #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); }
+    .theme-clean .input-control { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
+
+    /* 3. THEME: NATURE (Earthy & Green) */
+    .theme-nature { background-color: #022c22; color: #ecfdf5; }
+    .theme-nature .glass { background: #064e3b; border: 1px solid #047857; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5); }
+    .theme-nature .input-control { background: #022c22; color: white; border: 1px solid #047857; }
+
+    /* 4. THEME: OCEAN (Blue Tech) */
+    .theme-ocean { background: linear-gradient(135deg, #0f172a 0%, #0891b2 100%); color: white; }
+    .theme-ocean .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5); }
+    .theme-ocean .input-control { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); }
+
+    /* 5. THEME: SUNSET (Warm Gradient) */
+    .theme-sunset { background: linear-gradient(135deg, #4c1d95 0%, #e11d48 100%); color: white; }
+    .theme-sunset .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.4); }
+    .theme-sunset .input-control { background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.2); }
+
+    /* 6. THEME: LAVENDER (Soft Purple) */
+    .theme-lavender { background-color: #faf5ff; color: #4c1d95; }
+    .theme-lavender .glass { background: white; border: 1px solid #e9d5ff; box-shadow: 0 25px 50px -12px rgba(107, 33, 168, 0.1); }
+    .theme-lavender .input-control { background: #f3e8ff; color: #4c1d95; border: 1px solid #e9d5ff; }
+
+    /* 7. THEME: ROSE (Elegant Red/Pink) */
+    .theme-rose { background-color: #fff1f2; color: #881337; }
+    .theme-rose .glass { background: white; border: 1px solid #fecdd3; box-shadow: 0 25px 50px -12px rgba(159, 18, 57, 0.1); }
+    .theme-rose .input-control { background: #ffe4e6; color: #881337; border: 1px solid #fecdd3; }
+
+    /* DYNAMIC CTA BUTTON STYLING */
+    .btn-cta { 
+      background: var(--btn-bg); color: var(--btn-text); 
+      transition: all 0.5s; cursor: pointer; font-weight: 800; padding: 1.25rem; 
+      display: block; width: 100%; text-align: center; border-radius: 1rem; border: none; 
+      letter-spacing: 0.05em; text-transform: uppercase; 
+    }
+    .btn-cta:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .btn-cta:active { transform: translateY(1px); }
+
+    #mainWrapper { width: 100%; display: flex; flex-direction: column; transition: all 0.7s; max-width: 100%; margin-top: 1rem; }
+    #productImageWrapper { max-width: 460px; width: 100%; margin: 1.5rem auto; border-radius: 1.8rem; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.3); }
+    #productImage { width: 100%; height: auto; display: block; object-fit: contain; }
+
+    /* LAYOUT CENTER */
+    .layout-center { align-items: center; text-align: center; }
+    .layout-center #contentSide { margin-bottom: 2rem; width: 100%; max-width: 700px; }
+    .layout-center .glass { max-width: 440px; width: 100%; margin: 0 auto; }
+
+    /* LAYOUT SPLIT (Desktop Only) */
+    @media (min-width: 860px) {
+      .layout-split { flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 70px !important; max-width: 1100px !important; margin: 4rem auto !important; text-align: left !important; }
+      .layout-split #contentSide { width: 480px !important; display: flex !important; flex-direction: column !important; align-items: flex-start !important; flex-shrink: 0 !important; }
+      .layout-split #formSide { width: 440px !important; flex-shrink: 0 !important; }
+      .layout-split #productImageWrapper { margin-top: 2rem !important; margin-left: 0 !important; }
+    }
+
+    .glass { border-radius: 1.8rem; padding: 2.5rem; position: relative; z-index: 10; transition: all 0.5s; }
+    .input-control { width: 100%; padding: 1rem 1.25rem; border-radius: 0.8rem; margin-top: 0.4rem; outline: none; transition: 0.3s ease; font-size: 15px; font-weight: 500; }
+    .input-control:focus { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); border-color: #10b981; }
+
+    #loader-overlay { position: fixed; inset: 0; background: #09090b; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
+    @keyframes fadeInSlide { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-in { animation: fadeInSlide 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    
+    /* Dynamic Font Size Injection */
+    .dynamic-title { font-size: var(--title-fs, 2.5rem); line-height: 1.1; }
+    @media (min-width: 768px) { .dynamic-title { font-size: calc(var(--title-fs, 2.5rem) * 1.2); } }
+  </style>
+</head>
+<body class="theme-midnight">
+  
+  <div id="loader-overlay">
+    <div class="flex flex-col items-center gap-6">
+      <div class="w-12 h-12 border-4 border-emerald-500/20 rounded-full relative">
+        <div class="absolute -inset-1 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+      <p class="text-[10px] font-black text-emerald-400 uppercase tracking-[0.5em] animate-pulse">Menghubungkan Database...</p>
+    </div>
+  </div>
+
+  <div id="mainWrapper" class="layout-center animate-in" style="opacity: 0;">
+    <div id="contentSide" class="z-20 px-4 md:px-0">
+      <div id="logoWrapper" class="hidden mb-6 md:mb-10">
+        <img id="dynamicLogo" src="" alt="Brand Logo" class="h-12 md:h-16 w-auto object-contain">
+      </div>
+      
+      <h1 id="dynamicAppName" class="font-black tracking-tight mb-4 dynamic-title">Loading...</h1>
+      <p id="dynamicTagline" class="text-[15px] md:text-lg font-medium opacity-80 leading-relaxed max-w-xl hidden"></p>
+      
+      <div id="productImageWrapper" class="hidden transform transition-all duration-1000 scale-95 opacity-0">
+        <img id="productImage" src="" alt="Product Showcase">
+      </div>
+    </div>
+
+    <div id="formSide" class="w-full flex justify-center z-20 mt-8 md:mt-0 px-4">
+      <main class="glass w-full">
+        <div id="formWrapper">
+          <div class="text-center mb-8">
+            <h2 id="dynamicFormHeading" class="text-lg md:text-xl font-bold tracking-wide">Bergabung Sekarang</h2>
+            <div class="w-12 h-1 bg-current mx-auto mt-4 rounded-full opacity-20"></div>
+          </div>
+          
+          <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-4 md:space-y-5 text-left">
+            <input type="hidden" name="action" value="new_lead">
+            <!-- Campaign Input (Hidden). Inilah yang nyambungin Leads ke Autoresponder / Sequence Database -->
+            <input type="hidden" id="campaignInput" name="campaign" value="SEQ_GENERAL">
+            
+            <div>
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase dynamic-label">Nama Lengkap</label>
+              <input type="text" name="nama" required placeholder="Ketik nama Anda" class="input-control">
+            </div>
+            <div>
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase dynamic-label">Alamat Email</label>
+              <input type="email" name="email" required placeholder="nama@email.com" class="input-control">
+            </div>
+            <div>
+              <label class="text-[10px] font-black opacity-60 ml-1 tracking-widest uppercase dynamic-label">Nomor WhatsApp Aktif</label>
+              <input type="tel" name="wa" required placeholder="628xxxxxxxx" class="input-control">
+            </div>
+            
+            <button type="submit" id="submitBtn" class="btn-cta mt-8">
+              <span id="btnTextLabel">DAPATKAN AKSES</span>
+            </button>
+            
+            <div class="flex items-center justify-center gap-3 mt-8 opacity-40">
+              <i data-lucide="shield-check" class="w-4 h-4 dynamic-icon"></i>
+              <p class="text-[9px] font-bold tracking-widest uppercase dynamic-label">Secure 256-bit Encrypted</p>
+            </div>
+          </form>
+        </div>
+        
+        <div id="successState" class="hidden text-center py-10 md:py-16 animate-in px-2">
+          <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-emerald-500/20 shadow-2xl">
+            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500"></i>
+          </div>
+          <h2 class="text-3xl font-black mb-4 tracking-tight text-emerald-500">Berhasil!</h2>
+          <p class="opacity-80 text-sm md:text-base leading-relaxed mb-6 font-medium dynamic-label">Data Anda telah kami amankan. Silakan periksa WhatsApp / Email Anda dalam beberapa saat lagi untuk instruksi selanjutnya.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <footer id="protectedFooter" class="mt-16 pb-8 text-center w-full z-5 animate-in" style="opacity: 0;">
+    <p class="opacity-30 font-bold tracking-widest text-[10px] uppercase dynamic-label">
+      &copy; <span id="year">2026</span> <span id="footerBrand">iMersConnect</span>. All Rights Reserved.
+    </p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById('year').innerText = new Date().getFullYear();
+    
+    // GANTI DENGAN URL DEPLOYMENT APPS SCRIPT LO
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBeOGbT3HHIe0c8Yzzi-bcFFHVhiCf-p5w-nBnGGANzLb79LjWeX9W5yjexld0sQBW/exec"; 
+    
+    // Tarik parameter campaign dari URL kalau ada (?campaign=NAMACAMPAIGN)
+    const urlCampaignId = new URLSearchParams(window.location.search).get('campaign') || "";
+    let redirectUrl = "";
+
+    async function initializeApplication() {
+      try {
+        const response = await fetch(`${WEB_APP_URL}?action=getSettings`);
+        const globalData = await response.json();
+        
+        // SMART ROUTING: Cari pengaturan spesifik Campaign
+        let campData = {};
+        if(globalData.campaignSettings) {
+          try {
+            const campaignsArray = JSON.parse(globalData.campaignSettings);
+            // Cari yg ID-nya sama dengan parameter URL
+            campData = campaignsArray.find(c => c.id === urlCampaignId) || {};
+          } catch(e) { console.error("Error parsing campaign array"); }
+        }
+
+        // Tentukan Final Data (Prioritas: Campaign Terpilih -> Global Default)
+        const finalCampaignId = urlCampaignId || globalData.defaultCampaign || "SEQ_GENERAL";
+        document.getElementById('campaignInput').value = finalCampaignId;
+
+        // VARIABLES UTAMA
+        const theme = campData.theme || 'midnight'; 
+        const layout = campData.layout || 'center';
+        const appName = campData.appName || globalData.appName || "iMersConnect";
+        const logoUrl = campData.logoUrl || globalData.logoUrl || "";
+        const headline = campData.headline || globalData.formHeading || "Daftar Sekarang";
+        const tagline = campData.subheadline || campData.tagline || "";
+        const productImg = campData.imageUrl || "";
+        const btnText = campData.ctaText || globalData.btnText || "DAPATKAN AKSES";
+        redirectUrl = campData.redirect || globalData.redirectUrl || "";
+
+        // TYPOGRAPHY GLOBAL
+        const fontFam = globalData.globalFontFamily || "Plus Jakarta Sans";
+        const fontSizeStr = globalData.globalFontSize || "38";
+
+        // WARNA CUSTOM DARI ADMIN
+        const customBtnColor = campData.ctaColor || "";
+        const customBtnText = campData.ctaTextColor || "";
+        const customTextColor = campData.formTextColor || "";
+
+        // --- APLIKASIKAN KE HALAMAN HTML ---
+        
+        // 1. SET FONT & UKURAN
+        document.body.style.fontFamily = `"${fontFam}", sans-serif`;
+        document.documentElement.style.setProperty('--title-fs', `${fontSizeStr}px`);
+        
+        // 2. SET THEME & LAYOUT
+        document.body.className = `theme-${theme}`;
+        document.getElementById('mainWrapper').className = (layout === 'split') ? "layout-split animate-in" : "layout-center animate-in";
+        
+        // 3. SET TEKS KONTEN
+        document.title = appName;
+        document.getElementById('dynamicAppName').innerText = appName;
+        document.getElementById('dynamicFormHeading').innerText = headline;
+        document.getElementById('btnTextLabel').innerText = btnText;
+        document.getElementById('footerBrand').innerText = appName;
+
+        if (tagline) {
+          document.getElementById('dynamicTagline').innerText = tagline;
+          document.getElementById('dynamicTagline').classList.remove('hidden');
+        }
+
+        if (logoUrl) {
+          document.getElementById('dynamicLogo').src = logoUrl;
+          document.getElementById('logoWrapper').classList.remove('hidden');
+        }
+
+        // 4. GAMBAR PRODUK (Hanya muncul jika layout Split dan URL ada)
+        if (productImg && layout === 'split') {
+          document.getElementById('productImage').src = productImg;
+          document.getElementById('productImageWrapper').classList.remove('hidden');
+          setTimeout(() => { document.getElementById('productImageWrapper').classList.add('scale-100', 'opacity-100'); }, 200);
+        }
+
+        // 5. INJEKSI WARNA CUSTOM (JIKA DI SETTING ADMIN)
+        if (customBtnColor) {
+           document.documentElement.style.setProperty('--btn-bg', customBtnColor);
+        }
+        if (customBtnText) {
+           document.documentElement.style.setProperty('--btn-text', customBtnText);
+        }
+        if (customTextColor) {
+           document.documentElement.style.setProperty('--form-text', customTextColor);
+           document.getElementById('dynamicAppName').style.color = customTextColor;
+           document.getElementById('dynamicFormHeading').style.color = customTextColor;
+           document.getElementById('dynamicTagline').style.color = customTextColor;
+           
+           // Paksa pewarnaan label dan icon form
+           document.querySelectorAll('.dynamic-label').forEach(el => { el.style.color = customTextColor; });
+           document.querySelectorAll('.dynamic-icon').forEach(el => { el.style.color = customTextColor; });
+        }
+
+        // --- ANIMASI TAMPIL (FADE IN) ---
+        document.getElementById('loader-overlay').style.opacity = '0';
+        setTimeout(() => { 
+          const loader = document.getElementById('loader-overlay');
+          if(loader) loader.remove(); 
+          document.getElementById('mainWrapper').style.opacity = '1'; 
+          const footer = document.getElementById('protectedFooter');
+          if(footer) footer.style.opacity = '1'; 
+        }, 500);
+
+      } catch (err) { 
+        console.error("Gagal menarik data dari server:", err); 
+        // Fallback Force Show (Kalau server lemot/error, paksa munculin form)
+        const loader = document.getElementById('loader-overlay');
+        if(loader) loader.style.display = 'none';
+        document.getElementById('mainWrapper').style.opacity = '1'; 
+        const footer = document.getElementById('protectedFooter');
+        if(footer) footer.style.opacity = '1';
+      }
+    }
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const originalText = document.getElementById('btnTextLabel').innerText;
+      
+      document.getElementById('btnTextLabel').innerText = "MENGIRIM..."; 
+      btn.disabled = true;
+      
+      const payload = Object.fromEntries(new FormData(event.target).entries());
+      
+      try {
+        await fetch(WEB_APP_URL, { 
+          method: 'POST', 
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "text/plain;charset=utf-8" } 
+        });
+        
+        document.getElementById('formWrapper').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('formWrapper').classList.add('hidden');
+          document.getElementById('successState').classList.remove('hidden');
+        }, 400);
+        
+        // Redirect jika diset di Admin
+        if (redirectUrl) {
+          setTimeout(() => { window.location.href = redirectUrl; }, 3500);
+        }
+      } catch (e) { 
+        btn.disabled = false; 
+        document.getElementById('btnTextLabel').innerText = originalText; 
+        alert("Gagal menghubungi server. Silakan coba lagi.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeApplication);
+  </script>
+</body>
+</html>
