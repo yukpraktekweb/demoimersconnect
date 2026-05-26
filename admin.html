@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
   <!-- 
-    iMersConnect v9.0 - Ultra Premium SaaS Dashboard
+    iMersConnect v9.1 - Ultra Premium SaaS Dashboard (Bugfix Loader)
     ========================================================================
     Developer : Terry Katar | imersnesia.com
-    Upgrade   : Dark Space Theme, Template Gallery, Stealth Engine
+    Upgrade   : Dark Space Theme, Template Gallery, Stealth Engine Fix
     ========================================================================
   -->
   <base target="_top">
@@ -135,7 +135,7 @@
         <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i data-lucide="zap" class="w-5 h-5"></i></div>
         <div>
           <h1 class="text-xl font-black tracking-tight text-white">iMers<span class="text-emerald-500">Connect</span></h1>
-          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">SaaS Engine v9.0</p>
+          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">SaaS Engine v9.1</p>
         </div>
       </div>
       
@@ -358,10 +358,22 @@
     // --- STEALTH LOGIC ---
     let clickCount = 0; let clickTimer = null; let targetClicks = 7; 
 
+    function closeLoadingOverlay() {
+      const loader = document.getElementById('loading-overlay');
+      loader.style.opacity = '0';
+      setTimeout(() => loader.classList.add('hidden'), 500);
+    }
+
     fetch(`${WEB_APP_URL}?action=getSettings`)
       .then(res => res.json())
-      .then(data => { if(data.stealthClickCount) targetClicks = parseInt(data.stealthClickCount); })
-      .catch(err => console.log("Init stealth error"));
+      .then(data => { 
+        if(data.stealthClickCount) targetClicks = parseInt(data.stealthClickCount); 
+        closeLoadingOverlay(); // FIX: Hilangkan loader setelah ngecek click
+      })
+      .catch(err => {
+        console.log("Init stealth error", err);
+        closeLoadingOverlay(); // FIX: Hilangkan loader walaupun error
+      });
 
     function triggerSecretLogin() {
       clickCount++;
@@ -408,7 +420,7 @@
       finally { btn.innerText = "AUTHORIZE ACCESS"; btn.disabled = false; }
     }
 
-    // --- CAMPAIGN ENGINE (V1 LOGIC RESTORED & BEAUTIFIED) ---
+    // --- CAMPAIGN ENGINE ---
     function getFullLink(id) { 
       const b = (document.getElementById('websiteUrl').value || "").replace(/\/$/, ""); 
       return id ? (b ? `${b}/?campaign=${id}` : `/?campaign=${id}`) : "--- Konfigurasi URL Website Dahulu ---"; 
