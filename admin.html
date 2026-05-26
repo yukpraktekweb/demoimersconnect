@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
   <!-- 
-    iMersConnect v10.0 - ULTIMATE MAESTRO EDITION (God-Tier SaaS)
+    iMersConnect v10.1 - ULTIMATE MAESTRO EDITION (God-Tier SaaS)
     ========================================================================
     Developer : Terry Katar | imersnesia.com
-    Features  : Sequence Builder, Broadcast Engine, Analytics Charts, CRM
+    Features  : Full Dynamic Campaign Builder, Sequences, CRM, Broadcast
     ========================================================================
   -->
   <base target="_top">
@@ -48,6 +48,7 @@
       border-radius: 0.75rem; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; 
     }
     .input-pro:focus { border-color: var(--accent-glow); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); outline: none; }
+    input[type="color"].input-pro { padding: 0.2rem 0.5rem; height: 2.75rem; cursor: pointer; }
     
     label { display: block; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; margin-left: 0.25rem; }
 
@@ -125,7 +126,7 @@
         <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i data-lucide="activity" class="w-5 h-5"></i></div>
         <div>
           <h1 class="text-xl font-black tracking-tight text-white">iMers<span class="text-emerald-500">Connect</span></h1>
-          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Enterprise v10.0</p>
+          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Enterprise v10.1</p>
         </div>
       </div>
       
@@ -201,14 +202,17 @@
         </div>
       </section>
 
-      <!-- 3. CAMPAIGN LINK MANAGEMENT -->
-      <section id="tab-campaign" class="tab-content max-w-6xl">
+      <!-- 3. CAMPAIGN LINK MANAGEMENT (THE GOD-TIER FORM) -->
+      <section id="tab-campaign" class="tab-content max-w-7xl">
         <div class="flex items-center justify-between mb-8">
-          <h2 class="text-3xl font-black text-white tracking-tight">Link Campaigns</h2>
+          <h2 class="text-3xl font-black text-white tracking-tight">Dynamic Link Campaigns</h2>
           <button onclick="addCampaign()" class="btn-glow !bg-indigo-600 !shadow-[0_10px_25px_-5px_rgba(99,102,241,0.4)]"><i data-lucide="plus" class="w-4 h-4"></i> NEW CAMPAIGN</button>
         </div>
-        <p class="text-sm text-zinc-500 mb-8">Buat variasi Landing Page (Split/Center, Beda Judul, Beda Gambar) dengan ID Campaign yang berbeda.</p>
-        <div id="campaignListArea" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <p class="text-sm text-zinc-500 mb-8 max-w-3xl">Setiap Campaign memiliki Logo, Teks, Gambar, dan Warna Dinamis yang terpisah. Data leads akan dihubungkan otomatis ke Sequence dengan nama Campaign ID yang sama.</p>
+        
+        <div id="campaignListArea" class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <!-- Inject by JS -->
+        </div>
       </section>
 
       <!-- 4. AUTO SEQUENCES BUILDER -->
@@ -319,11 +323,20 @@
         <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Global Branding Engine</h2>
         <div class="glass-panel mb-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div><label>Nama Brand Master</label><input type="text" id="appName" class="input-pro"></div>
-            <div><label>Web Deployment URL (Vercel/Github)</label><input type="text" id="websiteUrl" class="input-pro"></div>
+            <div><label>Nama Brand Master</label><input type="text" id="appName" class="input-pro" placeholder="iMersConnect"></div>
+            <div><label>Web Deployment URL (Vercel/Github)</label><input type="text" id="websiteUrl" class="input-pro" placeholder="https://domain.com"></div>
             <div><label>Logo Utama (URL)</label><input type="text" id="logoUrl" class="input-pro"></div>
             <div><label>Global Redirect (Success Page)</label><input type="text" id="redirectUrl" class="input-pro"></div>
           </div>
+        </div>
+        <div class="glass-panel mb-8">
+           <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="type" class="text-emerald-500"></i> Global Typography Base</h3>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+             <div><label>Font Size Default (px)</label><input type="number" id="globalFontSize" class="input-pro" placeholder="38"></div>
+             <div><label>Font Family</label><select id="globalFontFamily" class="input-pro bg-[#09090b]"><option value="Plus Jakarta Sans">Plus Jakarta Sans</option><option value="Poppins">Poppins</option><option value="Lora">Lora (Serif)</option></select></div>
+             <div><label>Judul Form Master</label><input type="text" id="formHeading" class="input-pro" placeholder="Daftar Sekarang"></div>
+             <div><label>Teks Tombol CTA Master</label><input type="text" id="btnText" class="input-pro" placeholder="DAPATKAN AKSES"></div>
+           </div>
         </div>
       </section>
 
@@ -402,7 +415,6 @@
     }
 
     function logoutAdmin() {
-      // Cara paling aman bersihin JS state & kredensial tanpa refresh server state
       if(confirm("Yakin ingin mengunci kembali dashboard ini?")) {
         window.location.reload();
       }
@@ -434,31 +446,80 @@
       finally { btn.innerText = "AUTHORIZE ACCESS"; btn.disabled = false; }
     }
 
-    // --- CAMPAIGN BUILDER ---
+    // --- FULL DYNAMIC CAMPAIGN BUILDER ---
     function addCampaign() {
-      campaigns.push({ id: `CAMP_${Math.floor(Math.random()*1000)}`, appName: 'New Campaign', theme: 'midnight', layout: 'center', formHeading: 'Daftar Sekarang' });
+      campaigns.push({ 
+        id: `CAMP_${Math.floor(Math.random()*1000)}`, 
+        appName: 'Event Baru', 
+        logoUrl: '',
+        formHeading: 'Daftar Sekarang',
+        tagline: '',
+        theme: 'midnight', 
+        layout: 'center', 
+        productImageUrl: '',
+        btnText: 'DAPATKAN AKSES',
+        customBtnColor: '#10b981',
+        customBtnText: '#ffffff',
+        customTextColor: '#ffffff'
+      });
       renderCampaigns();
       populateSeqSelect();
     }
-    function removeCampaign(idx) { if(confirm("Hapus link ini?")) { campaigns.splice(idx, 1); renderCampaigns(); populateSeqSelect(); } }
+    
+    function removeCampaign(idx) { 
+      if(confirm("Hapus Campaign ini dari list?")) { campaigns.splice(idx, 1); renderCampaigns(); populateSeqSelect(); } 
+    }
     
     function renderCampaigns() {
       const area = document.getElementById('campaignListArea');
       area.innerHTML = '';
-      document.getElementById('statSeqs').innerText = campaigns.length;
+      if(document.getElementById('statSeqs')) document.getElementById('statSeqs').innerText = campaigns.length;
       
       campaigns.forEach((c, idx) => {
         area.innerHTML += `
-          <div class="glass-panel !p-6 border-t-4 border-t-indigo-500 relative">
-            <button onclick="removeCampaign(${idx})" class="absolute top-4 right-4 text-zinc-600 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>
-            <input type="text" class="input-pro mb-3 font-bold !text-indigo-400 !bg-[#18181b]" value="${c.id}" oninput="campaigns[${idx}].id = this.value; populateSeqSelect()">
-            <input type="text" class="input-pro mb-3 text-xs" value="${c.appName}" oninput="campaigns[${idx}].appName = this.value" placeholder="Nama Brand/Event">
-            <div class="grid grid-cols-2 gap-3 mb-4">
-               <select class="input-pro text-xs bg-[#09090b]" onchange="campaigns[${idx}].theme = this.value"><option value="midnight" ${c.theme==='midnight'?'selected':''}>Midnight</option><option value="ocean" ${c.theme==='ocean'?'selected':''}>Ocean</option><option value="nature" ${c.theme==='nature'?'selected':''}>Nature</option></select>
-               <select class="input-pro text-xs bg-[#09090b]" onchange="campaigns[${idx}].layout = this.value"><option value="center" ${c.layout==='center'?'selected':''}>Center</option><option value="split" ${c.layout==='split'?'selected':''}>Split</option></select>
+          <div class="glass-panel !p-8 border-t-4 border-t-indigo-500 relative flex flex-col gap-5 transition-all duration-300 hover:shadow-2xl hover:border-indigo-400">
+            <button onclick="removeCampaign(${idx})" class="absolute top-5 right-5 text-zinc-600 hover:text-rose-500 bg-rose-500/10 p-2 rounded-lg transition-colors"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div><label class="!text-indigo-400">Campaign ID (Slug URL)</label><input type="text" class="input-pro font-bold !text-indigo-400 !bg-[#18181b]" value="${c.id}" oninput="campaigns[${idx}].id = this.value; populateSeqSelect()"></div>
+              <div><label>Brand / Nama Display</label><input type="text" class="input-pro" value="${c.appName}" oninput="campaigns[${idx}].appName = this.value"></div>
             </div>
-            <input type="text" class="input-pro text-xs mb-3" value="${c.productImageUrl || ''}" oninput="campaigns[${idx}].productImageUrl = this.value" placeholder="URL Gambar Produk (Utk Split)">
-            <button class="btn-secondary w-full text-[10px]" onclick="alert('Link: '+document.getElementById('websiteUrl').value+'/?campaign='+campaigns[${idx}].id)"><i data-lucide="link" class="w-3 h-3"></i> Dapatkan Link</button>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div><label>Headline Form</label><input type="text" class="input-pro" value="${c.formHeading || ''}" placeholder="Daftar Sekarang" oninput="campaigns[${idx}].formHeading = this.value"></div>
+              <div><label>Tagline / Subheadline</label><input type="text" class="input-pro" value="${c.tagline || ''}" placeholder="Kosongkan jika tdk ada" oninput="campaigns[${idx}].tagline = this.value"></div>
+            </div>
+
+            <div><label>Logo URL (PNG/JPG Khusus Campaign)</label><input type="text" class="input-pro" value="${c.logoUrl || ''}" placeholder="https://domain.com/logo.png" oninput="campaigns[${idx}].logoUrl = this.value"></div>
+
+            <div class="grid grid-cols-2 gap-4 border-y border-[#27272a] py-5">
+               <div><label>Theme Latar Preset</label>
+                  <select class="input-pro bg-[#09090b]" onchange="campaigns[${idx}].theme = this.value">
+                    <option value="midnight" ${c.theme==='midnight'?'selected':''}>Midnight Dark</option>
+                    <option value="clean" ${c.theme==='clean'?'selected':''}>Clean White</option>
+                    <option value="nature" ${c.theme==='nature'?'selected':''}>Nature Green</option>
+                    <option value="ocean" ${c.theme==='ocean'?'selected':''}>Ocean Blue</option>
+                    <option value="sunset" ${c.theme==='sunset'?'selected':''}>Sunset Warm</option>
+                    <option value="lavender" ${c.theme==='lavender'?'selected':''}>Lavender</option>
+                    <option value="rose" ${c.theme==='rose'?'selected':''}>Elegant Rose</option>
+                  </select>
+               </div>
+               <div><label>Layout Page</label><select class="input-pro bg-[#09090b]" onchange="campaigns[${idx}].layout = this.value"><option value="center" ${c.layout==='center'?'selected':''}>Tengah (Center)</option><option value="split" ${c.layout==='split'?'selected':''}>Kiri/Kanan (Split)</option></select></div>
+            </div>
+
+            <div><label>Optional Image URL (Jika Layout Split)</label><input type="text" class="input-pro" value="${c.productImageUrl || ''}" placeholder="URL Gambar Produk" oninput="campaigns[${idx}].productImageUrl = this.value"></div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div><label>Teks Tombol CTA</label><input type="text" class="input-pro" value="${c.btnText || ''}" placeholder="DAPATKAN AKSES" oninput="campaigns[${idx}].btnText = this.value"></div>
+              <div><label class="!text-emerald-400">Warna Latar Tombol</label><input type="color" class="input-pro" value="${c.customBtnColor || '#10b981'}" oninput="campaigns[${idx}].customBtnColor = this.value"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div><label>Warna Teks Global Form</label><input type="color" class="input-pro" value="${c.customTextColor || '#ffffff'}" oninput="campaigns[${idx}].customTextColor = this.value"></div>
+              <div><label>Warna Teks Tombol</label><input type="color" class="input-pro" value="${c.customBtnText || '#ffffff'}" oninput="campaigns[${idx}].customBtnText = this.value"></div>
+            </div>
+
+            <button class="btn-secondary w-full justify-center mt-2" onclick="alert('Link Publik: '+document.getElementById('websiteUrl').value+'/?campaign='+campaigns[${idx}].id)"><i data-lucide="link" class="w-4 h-4"></i> SALIN LINK UNTUK CAMPAIGN INI</button>
           </div>
         `;
       });
