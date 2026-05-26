@@ -24,7 +24,6 @@
 <body class="h-screen overflow-hidden bg-slate-50 relative">
 
   <!-- ================= LAYAR KAMUFLASE (STEALTH MODE) ================= -->
-  <!-- Orang biasa cuma bakal lihat ini -->
   <div id="stealthCover" class="absolute inset-0 bg-white z-[60] flex flex-col items-center justify-center transition-opacity duration-700">
     <!-- INI TOMBOL RAHASIANYA (Klik Dinamis via Backend) -->
     <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">
@@ -37,7 +36,6 @@
   </div>
 
   <!-- ================= LOGIN SCREEN (Secure Backend Verification) ================= -->
-  <!-- Awalnya disembunyikan pakai 'hidden' -->
   <div id="loginScreen" class="absolute inset-0 bg-slate-900 z-50 hidden items-center justify-center p-4 transition-opacity duration-500 opacity-0">
     <div class="bg-white p-10 rounded-[2rem] max-w-sm w-full shadow-2xl text-center transform scale-95 transition-transform duration-500" id="loginBox">
       <div class="w-16 h-16 bg-emerald-100 text-emerald-500 rounded-2xl mx-auto flex items-center justify-center mb-6">
@@ -88,7 +86,7 @@
         <div class="glass-card"><p class="text-slate-500 italic">Data leads, sequences, & logs diatur melalui database Spreadsheet Anda secara real-time.</p></div>
       </section>
 
-      <!-- TAB SETTINGS (KEMBALI DINAMIS) -->
+      <!-- TAB SETTINGS (DINAMIS 100%) -->
       <section id="tab-settings" class="tab-content">
         <h2 class="text-3xl font-black mb-8 text-slate-800">SaaS Configuration</h2>
         
@@ -116,7 +114,7 @@
               <div>
                 <label class="block text-xs font-bold text-slate-400 uppercase mb-2">Jumlah Klik Rahasia (Membuka Login)</label>
                 <input type="number" id="stealthClickCount" class="input-control" placeholder="7">
-                <p class="text-[11px] text-slate-400 mt-2">Default: 7 kali klik. Angka ini ditarik dinamis dari backend Google Sheets.</p>
+                <p class="text-[11px] text-slate-400 mt-2">Default: 7 kali klik pada tulisan "iMersConnect" di halaman 404.</p>
               </div>
             </div>
           </div>
@@ -147,12 +145,18 @@
           </div>
         </div>
 
-        <!-- Advanced UI Settings -->
+        <!-- Advanced UI Settings & Colors -->
         <div class="glass-card mb-8">
-           <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="palette" class="text-rose-500"></i> Tema & Layout Landing Page</h3>
+           <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2"><i data-lucide="palette" class="text-rose-500"></i> Tema, Layout & Warna Kustom</h3>
            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Tema Warna</label>
-                <select id="theme" class="input-control"><option value="midnight">Midnight (Dark)</option><option value="clean">Clean (White)</option><option value="nature">Nature (Green)</option></select>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Tema Warna (Preset)</label>
+                <select id="theme" class="input-control">
+                  <option value="midnight">Midnight (Dark)</option>
+                  <option value="clean">Clean (White)</option>
+                  <option value="nature">Nature (Green)</option>
+                  <option value="ocean">Ocean (Blue Gradient)</option>
+                  <option value="sunset">Sunset (Warm Gradient)</option>
+                </select>
              </div>
              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Layout Page</label>
                 <select id="layout" class="input-control"><option value="center">Center (Tengah)</option><option value="split">Split (Kiri-Kanan)</option></select>
@@ -163,6 +167,18 @@
              <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">URL Gambar Produk</label>
                 <input type="text" id="productImageUrl" class="input-control" placeholder="URL Gambar Mockup">
              </div>
+
+             <!-- WARNA KUSTOM DINAMIS -->
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Warna Teks Utama</label>
+                <input type="color" id="customTextColor" class="input-control h-12 p-1 cursor-pointer">
+             </div>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Warna Latar Tombol CTA</label>
+                <input type="color" id="customBtnColor" class="input-control h-12 p-1 cursor-pointer" value="#10b981">
+             </div>
+             <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Warna Teks Tombol CTA</label>
+                <input type="color" id="customBtnText" class="input-control h-12 p-1 cursor-pointer" value="#ffffff">
+             </div>
+
              <div class="lg:col-span-4"><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Redirect URL (Setelah Daftar)</label>
                 <input type="text" id="redirectUrl" class="input-control" placeholder="https://domain.com/thanks">
              </div>
@@ -350,6 +366,12 @@
         document.getElementById('layout').value = data.layout || 'center';
         document.getElementById('productImageUrl').value = data.productImageUrl || '';
         document.getElementById('showProductImg').value = data.showProductImg || 'false';
+        
+        // Custom Colors
+        if(data.customTextColor) document.getElementById('customTextColor').value = data.customTextColor;
+        if(data.customBtnColor) document.getElementById('customBtnColor').value = data.customBtnColor;
+        if(data.customBtnText) document.getElementById('customBtnText').value = data.customBtnText;
+
         document.getElementById('redirectUrl').value = data.redirectUrl || '';
       } catch (err) { console.error(err); }
     }
@@ -367,6 +389,7 @@
         useService: document.getElementById('useService').value,
         waSender: document.getElementById('waSender').value,
         waToken: document.getElementById('waToken').value,
+        
         // UI Data Multi-Dynamic
         defaultCampaign: document.getElementById('defaultCampaign').value,
         logoUrl: document.getElementById('logoUrl').value,
@@ -376,7 +399,12 @@
         theme: document.getElementById('theme').value,
         layout: document.getElementById('layout').value,
         productImageUrl: document.getElementById('productImageUrl').value,
-        showProductImg: document.getElementById('showProductImg').value
+        showProductImg: document.getElementById('showProductImg').value,
+        
+        // Custom Colors Data
+        customTextColor: document.getElementById('customTextColor').value,
+        customBtnColor: document.getElementById('customBtnColor').value,
+        customBtnText: document.getElementById('customBtnText').value
       };
 
       try {
