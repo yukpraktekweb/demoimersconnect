@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iMersConnect | Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .glass { background: white; border-radius: 2rem; padding: 3rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05); max-width: 450px; width: 100%; }
+    .input-control { width: 100%; padding: 1rem 1.25rem; border-radius: 1rem; border: 1.5px solid #e2e8f0; margin-top: 0.5rem; outline: none; transition: 0.3s ease; font-weight: 500; background: #f8fafc; }
+    .input-control:focus { border-color: #10b981; background: white; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+    .btn-cta { background: #10b981; color: white; font-weight: 800; padding: 1.25rem; width: 100%; border-radius: 1rem; border: none; cursor: pointer; transition: 0.3s; margin-top: 2rem; }
+    .btn-cta:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+  </style>
+</head>
+<body>
+  
+  <main class="glass">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-extrabold text-slate-800">Bergabung Sekarang</h2>
+      <p class="text-slate-500 mt-2 text-sm">Dapatkan akses langsung ke sistem.</p>
+    </div>
+
+    <form id="leadForm" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="action" value="new_lead">
+      <input type="hidden" name="campaign" value="SEQ_GENERAL"> <!-- Menargetkan Sequence ID di Database -->
+      
+      <div class="mb-4">
+        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider ml-2">Nama Lengkap</label>
+        <input type="text" name="nama" required placeholder="John Doe" class="input-control">
+      </div>
+      <div class="mb-4">
+        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider ml-2">Email</label>
+        <input type="email" name="email" required placeholder="john@email.com" class="input-control">
+      </div>
+      <div class="mb-4">
+        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider ml-2">WhatsApp</label>
+        <input type="tel" name="wa" required placeholder="628123456789" class="input-control">
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-cta">DAFTAR SEKARANG</button>
+    </form>
+    
+    <div id="successMsg" class="hidden text-center py-8">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">✓</div>
+      <h3 class="text-xl font-bold text-slate-800">Pendaftaran Berhasil!</h3>
+      <p class="text-slate-500 text-sm mt-2">Cek WhatsApp Anda dalam beberapa saat.</p>
+    </div>
+  </main>
+
+  <script>
+    // GANTI DENGAN URL DEPLOYMENT WEB APP TERBARU LO
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyBkHWdf2ebNeuALXg4nYCrCpkvIHTl8dT2wWcHkIVrB5AD4vsLJdsNFRDm6HX3shBK/exec"; 
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.innerText = "MENGIRIM..."; btn.disabled = true;
+      
+      const payload = Object.fromEntries(new FormData(event.target).entries());
+      
+      try {
+        const res = await fetch(WEB_APP_URL, { 
+          method: 'POST', 
+          body: JSON.stringify(payload),
+          headers: { "Content-Type": "text/plain;charset=utf-8" } 
+        });
+        
+        document.getElementById('leadForm').classList.add('hidden');
+        document.getElementById('successMsg').classList.remove('hidden');
+      } catch (e) { 
+        btn.disabled = false; btn.innerText = "COBA LAGI"; 
+        alert("Gagal menghubungi server.");
+      }
+    }
+  </script>
+</body>
+</html>
