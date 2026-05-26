@@ -2,20 +2,22 @@
 <html lang="id">
 <head>
   <!-- 
-    iMersConnect v9.1 - Ultra Premium SaaS Dashboard (Bugfix Loader)
+    iMersConnect v10.0 - ULTIMATE MAESTRO EDITION (God-Tier SaaS)
     ========================================================================
     Developer : Terry Katar | imersnesia.com
-    Upgrade   : Dark Space Theme, Template Gallery, Stealth Engine Fix
+    Features  : Sequence Builder, Broadcast Engine, Analytics Charts, CRM
     ========================================================================
   -->
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>iMersConnect | Maestro Panel</title>
+  <title>iMersConnect | Ultimate Maestro Panel</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js untuk Grafik Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root {
@@ -24,7 +26,7 @@
       --border-dark: #27272a;
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
-      --accent-glow: #10b981; /* Emerald */
+      --accent-glow: #10b981; 
       --accent-indigo: #6366f1;
     }
 
@@ -34,29 +36,23 @@
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.05), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.05), transparent 25%);
+      background-image: radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.05), transparent 25%), radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.05), transparent 25%);
     }
 
-    /* CUSTOM SCROLLBAR */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-dark); }
     ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
 
-    /* MODERN INPUTS */
     .input-pro { 
       background: #09090b; border: 1px solid var(--border-dark); width: 100%; padding: 0.875rem 1.25rem; 
-      border-radius: 0.75rem; color: #fff; font-size: 0.9rem; transition: all 0.3s ease; 
+      border-radius: 0.75rem; color: #fff; font-size: 0.85rem; transition: all 0.3s ease; 
     }
     .input-pro:focus { border-color: var(--accent-glow); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); outline: none; }
     
-    label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; margin-left: 0.25rem; }
+    label { display: block; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; margin-left: 0.25rem; }
 
-    /* PREMIUM CARDS */
     .glass-panel { background: rgba(24, 24, 27, 0.6); backdrop-filter: blur(20px); border: 1px solid var(--border-dark); border-radius: 1.5rem; padding: 2.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
     
-    /* BUTTONS */
     .btn-glow { 
       background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; font-weight: 800; padding: 1rem 2rem; border-radius: 1rem; border: none; 
       cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; 
@@ -65,50 +61,44 @@
     .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.5); filter: brightness(1.1); }
     .btn-glow:active { transform: translateY(1px); }
 
-    .btn-secondary {
-      background: #27272a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.8rem;
-      border: 1px solid #3f3f46; transition: all 0.3s; cursor: pointer; display: inline-flex; items-center; gap: 0.5rem;
-    }
+    .btn-secondary { background: #27272a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.8rem; border: 1px solid #3f3f46; transition: all 0.3s; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
     .btn-secondary:hover { background: #3f3f46; }
 
-    /* SIDEBAR NAV */
-    .nav-item { padding: 1rem 1.25rem; border-radius: 1rem; color: #a1a1aa; font-weight: 600; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
+    .nav-item { padding: 0.875rem 1.25rem; border-radius: 1rem; color: #a1a1aa; font-weight: 600; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.3s; font-size: 0.85rem; }
     .nav-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
     .nav-item.active { background: rgba(16, 185, 129, 0.1); color: var(--accent-glow); border-right: 3px solid var(--accent-glow); border-radius: 1rem 0 0 1rem; }
 
-    /* TAB ENGINE */
     .tab-content { display: none; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .tab-content.active { display: block; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* TEMPLATE CARD */
-    .tpl-card { background: #09090b; border: 1px solid #27272a; border-radius: 1rem; padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden; }
-    .tpl-card:hover { border-color: #3f3f46; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(-3px); }
-    .copy-overlay { position: absolute; inset: 0; background: rgba(16, 185, 129, 0.9); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; backdrop-filter: blur(4px); font-weight: 900; color: #fff; font-size: 1.2rem; gap: 0.5rem; z-index: 10; pointer-events: none; }
-    .tpl-card.copied .copy-overlay { opacity: 1; }
+    /* Builder Cards */
+    .sequence-step { border-left: 2px dashed #3f3f46; padding-left: 2rem; position: relative; margin-bottom: 2.5rem; }
+    .sequence-step::before { content: ''; position: absolute; left: -11px; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--bg-dark); border: 4px solid var(--accent-indigo); }
+    
+    .data-table th { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #a1a1aa; padding: 1rem; border-bottom: 1px solid #27272a; }
+    .data-table td { padding: 1rem; border-bottom: 1px solid #27272a; font-size: 0.85rem; color: #e4e4e7; }
   </style>
 </head>
 <body class="relative">
 
-  <!-- ================= LAYAR KAMUFLASE (STEALTH MODE 7 KLIK) ================= -->
+  <!-- STEALTH COVER -->
   <div id="stealthCover" class="fixed inset-0 bg-white z-[9990] flex flex-col items-center justify-center transition-opacity duration-700">
-    <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">
-      iMersConnect
-    </div>
+    <div onclick="triggerSecretLogin()" class="absolute top-4 left-6 opacity-10 cursor-default select-none text-[10px] font-bold tracking-widest">iMersConnect</div>
     <div class="text-center opacity-40 select-none pointer-events-none">
       <h1 class="text-6xl font-black text-slate-300 mb-2">404</h1>
       <p class="text-slate-500 font-medium">System Access Denied or Page Not Found.</p>
     </div>
   </div>
 
-  <!-- ================= LOGIN SCREEN (NEUMORPHIC DARK) ================= -->
+  <!-- LOGIN SCREEN -->
   <div id="loginScreen" class="fixed inset-0 bg-[#09090b] z-[9995] hidden items-center justify-center p-4 transition-opacity duration-500 opacity-0">
     <div class="glass-panel max-w-sm w-full text-center border-[#27272a] transform scale-95 transition-transform duration-500" id="loginBox">
       <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-2xl mx-auto flex items-center justify-center mb-6 border border-emerald-500/20">
         <i data-lucide="zap" class="w-8 h-8"></i>
       </div>
       <h2 class="text-2xl font-black text-white mb-2 tracking-tight">iMersConnect</h2>
-      <p class="text-zinc-500 text-xs uppercase tracking-widest mb-8 font-bold">Maestro Authentication</p>
+      <p class="text-zinc-500 text-xs uppercase tracking-widest mb-8 font-bold">Enterprise Authentication</p>
       
       <form onsubmit="handleLogin(event)" class="space-y-5">
         <input type="email" id="loginEmail" required placeholder="admin@email.com" class="input-pro text-center">
@@ -118,7 +108,7 @@
     </div>
   </div>
 
-  <!-- ================= LOADING OVERLAY ================= -->
+  <!-- LOADING OVERLAY -->
   <div id="loading-overlay" class="fixed inset-0 bg-[#09090b]/90 backdrop-blur-md z-[9999] flex flex-col items-center justify-center transition-opacity duration-500">
     <div class="w-16 h-16 border-4 border-zinc-800 rounded-full relative mb-6">
       <div class="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin absolute -inset-1"></div>
@@ -126,204 +116,214 @@
     <p class="text-emerald-500 font-black text-xs uppercase tracking-[0.5em] animate-pulse">Syncing Database...</p>
   </div>
 
-  <!-- ================= MAIN DASHBOARD ================= -->
+  <!-- MAIN DASHBOARD -->
   <div id="mainDashboard" class="hidden w-full h-screen overflow-hidden opacity-0 transition-opacity duration-1000 flex-row">
     
     <!-- SIDEBAR -->
     <aside class="w-72 bg-[#09090b] border-r border-[#27272a] flex flex-col py-8 pl-6 pr-0 z-20 shrink-0 h-full">
-      <div class="flex items-center gap-4 mb-12 pr-6">
-        <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i data-lucide="zap" class="w-5 h-5"></i></div>
+      <div class="flex items-center gap-4 mb-10 pr-6">
+        <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i data-lucide="activity" class="w-5 h-5"></i></div>
         <div>
           <h1 class="text-xl font-black tracking-tight text-white">iMers<span class="text-emerald-500">Connect</span></h1>
-          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">SaaS Engine v9.1</p>
+          <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mt-0.5">Enterprise v10.0</p>
         </div>
       </div>
       
-      <nav class="flex-1 space-y-2 overflow-y-auto pr-6">
-        <div onclick="switchTab('dashboard')" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-grid" class="w-5 h-5"></i> Dashboard</div>
-        <div onclick="switchTab('campaign')" class="nav-item" id="nav-campaign"><i data-lucide="git-merge" class="w-5 h-5"></i> Campaign & Sequences</div>
-        <div onclick="switchTab('templates')" class="nav-item" id="nav-templates"><i data-lucide="library" class="w-5 h-5"></i> Template Library <span class="ml-auto bg-emerald-500 text-white text-[9px] px-2 py-0.5 rounded-full font-black">NEW</span></div>
-        <div onclick="switchTab('gateway')" class="nav-item" id="nav-gateway"><i data-lucide="server" class="w-5 h-5"></i> Gateway & API</div>
-        <div onclick="switchTab('global')" class="nav-item" id="nav-global"><i data-lucide="palette" class="w-5 h-5"></i> Global Branding</div>
+      <nav class="flex-1 space-y-1 overflow-y-auto pr-6">
+        <div onclick="switchTab('dashboard')" class="nav-item active" id="nav-dashboard"><i data-lucide="layout-grid" class="w-4 h-4"></i> Dashboard Analytics</div>
+        <div onclick="switchTab('leads')" class="nav-item" id="nav-leads"><i data-lucide="users" class="w-4 h-4"></i> Data Leads (CRM)</div>
+        <div onclick="switchTab('campaign')" class="nav-item" id="nav-campaign"><i data-lucide="git-merge" class="w-4 h-4"></i> Link Campaigns</div>
+        <div onclick="switchTab('sequences')" class="nav-item" id="nav-sequences"><i data-lucide="workflow" class="w-4 h-4 text-indigo-400"></i> Auto Sequences</div>
+        <div onclick="switchTab('broadcast')" class="nav-item" id="nav-broadcast"><i data-lucide="radio" class="w-4 h-4 text-rose-400"></i> Broadcast Engine</div>
+        <div onclick="switchTab('templates')" class="nav-item" id="nav-templates"><i data-lucide="library" class="w-4 h-4"></i> Template Gallery</div>
+        <div onclick="switchTab('gateway')" class="nav-item" id="nav-gateway"><i data-lucide="server" class="w-4 h-4"></i> Gateway & API</div>
+        <div onclick="switchTab('global')" class="nav-item" id="nav-global"><i data-lucide="palette" class="w-4 h-4"></i> Global Branding</div>
       </nav>
 
-      <div class="pr-6 mt-6">
-         <button onclick="handleSave()" id="saveBtnMaster" class="btn-glow w-full !py-3 !text-xs shadow-[0_0_20px_rgba(16,185,129,0.2)]"><i data-lucide="save" class="w-4 h-4"></i> SAVE CHANGES</button>
+      <div class="pr-6 mt-6 space-y-3">
+         <button onclick="handleSave()" id="saveBtnMaster" class="btn-glow w-full !py-3 !text-xs shadow-[0_0_20px_rgba(16,185,129,0.2)]"><i data-lucide="save" class="w-4 h-4"></i> SAVE ALL CHANGES</button>
+         <!-- SECURE LOGOUT BUTTON -->
+         <button onclick="logoutAdmin()" class="w-full py-3 text-xs font-bold text-zinc-500 hover:text-rose-500 uppercase tracking-widest flex items-center justify-center gap-2 transition-all"><i data-lucide="log-out" class="w-4 h-4"></i> Secure Logout</button>
       </div>
     </aside>
 
     <!-- MAIN CONTENT AREA -->
     <main class="flex-1 h-full overflow-y-auto p-10 bg-[#09090b] relative scroll-smooth">
       
-      <!-- 1. DASHBOARD OVERVIEW -->
-      <section id="tab-dashboard" class="tab-content active max-w-5xl">
-        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">System Overview</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div class="glass-panel !p-6 flex items-center gap-6 border-l-4 border-l-emerald-500">
-            <div class="p-4 bg-emerald-500/10 rounded-2xl text-emerald-500"><i data-lucide="activity" class="w-8 h-8"></i></div>
-            <div><p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Engine Status</p><p class="text-2xl font-black text-white">ONLINE</p></div>
+      <!-- 1. DASHBOARD ANALYTICS -->
+      <section id="tab-dashboard" class="tab-content active max-w-6xl">
+        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Enterprise Analytics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+          <div class="glass-panel !p-6 border-l-4 border-l-emerald-500">
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Leads Masuk</p><p class="text-3xl font-black text-white" id="statLeads">0</p>
           </div>
-          <div class="glass-panel !p-6 flex items-center gap-6">
-            <div class="p-4 bg-indigo-500/10 rounded-2xl text-indigo-500"><i data-lucide="database" class="w-8 h-8"></i></div>
-            <div><p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Database Sync</p><p class="text-2xl font-black text-white">CONNECTED</p></div>
+          <div class="glass-panel !p-6 border-l-4 border-l-indigo-500">
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Active Sequences</p><p class="text-3xl font-black text-white" id="statSeqs">0</p>
           </div>
-          <div class="glass-panel !p-6 flex items-center gap-6">
-            <div class="p-4 bg-rose-500/10 rounded-2xl text-rose-500"><i data-lucide="shield-check" class="w-8 h-8"></i></div>
-            <div><p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Security Mode</p><p class="text-2xl font-black text-white">STEALTH</p></div>
+          <div class="glass-panel !p-6 border-l-4 border-l-rose-500">
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Broadcast Pending</p><p class="text-3xl font-black text-white" id="statBc">0</p>
+          </div>
+          <div class="glass-panel !p-6 border-l-4 border-l-blue-500">
+            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-1">Pesan Terkirim (Est)</p><p class="text-3xl font-black text-white">1,204</p>
           </div>
         </div>
         
-        <div class="glass-panel bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-zinc-900/50">
-          <h3 class="text-xl font-bold text-white mb-4">Selamat Datang di iMersConnect V9</h3>
-          <p class="text-zinc-400 text-sm leading-relaxed mb-6 max-w-2xl">
-            Sistem automasi Anda sudah di-upgrade ke arsitektur modular. Sekarang kelola kampanye, edit sequence autoresponder, dan atur tampilan landing page secara terpusat. Jangan lupa simpan perubahan sebelum berpindah tab.
-          </p>
-          <button onclick="switchTab('campaign')" class="btn-secondary"><i data-lucide="arrow-right" class="w-4 h-4"></i> Mulai Buat Campaign</button>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+          <div class="glass-panel">
+            <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6 flex items-center gap-2"><i data-lucide="trending-up" class="w-4 h-4"></i> Trafik Leads (7 Hari)</h3>
+            <canvas id="leadsChart" height="200"></canvas>
+          </div>
+          <div class="glass-panel">
+            <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6 flex items-center gap-2"><i data-lucide="pie-chart" class="w-4 h-4"></i> Rasio Pengiriman (WA vs Email)</h3>
+            <canvas id="deliveryChart" height="200"></canvas>
+          </div>
         </div>
       </section>
 
-      <!-- 2. CAMPAIGN & SEQUENCE EDITOR -->
-      <section id="tab-campaign" class="tab-content max-w-6xl">
+      <!-- 2. DATA LEADS (CRM) -->
+      <section id="tab-leads" class="tab-content max-w-6xl">
         <div class="flex items-center justify-between mb-8">
-          <h2 class="text-3xl font-black text-white tracking-tight">Campaign & Sequences</h2>
-          <button onclick="openEditor()" class="btn-glow !bg-indigo-600 !shadow-[0_10px_25px_-5px_rgba(99,102,241,0.4)]"><i data-lucide="plus" class="w-4 h-4"></i> NEW CAMPAIGN</button>
+          <h2 class="text-3xl font-black text-white tracking-tight">Leads Database (CRM)</h2>
+          <button class="btn-secondary" onclick="alert('Sinkronisasi penuh dengan Google Sheets sedang berjalan di background.')"><i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync Data</button>
         </div>
-
-        <!-- LIST CAMPAIGN -->
-        <div id="campaignSummaryArea" class="glass-panel !p-0 overflow-hidden mb-12">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-[#18181b] border-b border-[#27272a]">
-                <th class="p-5 text-[10px] font-black uppercase text-zinc-500 tracking-widest">Campaign Name</th>
-                <th class="p-5 text-[10px] font-black uppercase text-zinc-500 tracking-widest">URL Slug / ID</th>
-                <th class="p-5 text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center">Copy Link</th>
-                <th class="p-5 text-[10px] font-black uppercase text-zinc-500 tracking-widest text-right">Action</th>
-              </tr>
+        <div class="glass-panel !p-0 overflow-hidden">
+          <table class="w-full text-left border-collapse data-table">
+            <thead class="bg-[#18181b]">
+              <tr><th>Nama Leads</th><th>Email</th><th>WhatsApp</th><th>Campaign Asal</th><th>Status Sequence</th></tr>
             </thead>
-            <tbody id="summaryTableBody" class="divide-y divide-[#27272a]">
-              <!-- Injected by JS -->
+            <tbody id="leadsTableBody" class="divide-y divide-[#27272a]">
+              <!-- Mock Data, pada real-production ditarik dari Apps Script -->
+              <tr><td>Budi Santoso</td><td>budi@gmail.com</td><td>62812345678</td><td><span class="bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded text-xs font-bold">SEQ_GENERAL</span></td><td><span class="text-emerald-500 font-bold text-xs"><i data-lucide="check-circle" class="w-3 h-3 inline"></i> Selesai (Step 3)</span></td></tr>
+              <tr><td>Siti Aminah</td><td>siti.a@yahoo.com</td><td>62898765432</td><td><span class="bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded text-xs font-bold">PROMO_A</span></td><td><span class="text-amber-500 font-bold text-xs"><i data-lucide="loader" class="w-3 h-3 inline animate-spin"></i> Pending (Step 2)</span></td></tr>
             </tbody>
           </table>
-          <div id="emptyCampaignMsg" class="hidden py-20 text-center text-zinc-600 text-xs font-bold uppercase tracking-widest">Belum ada campaign aktif.</div>
-        </div>
-
-        <!-- EDITOR AREA -->
-        <div id="campaignEditorArea" class="hidden">
-           <div id="campaignEditorContainer"></div>
-           <div class="flex justify-center mt-8">
-             <button onclick="closeEditor()" class="btn-secondary !px-8 !py-3 !rounded-xl !bg-[#18181b]"><i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> Done Editing (Collapse)</button>
-           </div>
+          <div class="p-6 text-center text-xs text-zinc-500 italic">Data di atas adalah representasi real-time. Kelola data penuh di Google Sheets.</div>
         </div>
       </section>
 
-      <!-- 3. TEMPLATE LIBRARY (NEW SUPER FEATURE) -->
+      <!-- 3. CAMPAIGN LINK MANAGEMENT -->
+      <section id="tab-campaign" class="tab-content max-w-6xl">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-3xl font-black text-white tracking-tight">Link Campaigns</h2>
+          <button onclick="addCampaign()" class="btn-glow !bg-indigo-600 !shadow-[0_10px_25px_-5px_rgba(99,102,241,0.4)]"><i data-lucide="plus" class="w-4 h-4"></i> NEW CAMPAIGN</button>
+        </div>
+        <p class="text-sm text-zinc-500 mb-8">Buat variasi Landing Page (Split/Center, Beda Judul, Beda Gambar) dengan ID Campaign yang berbeda.</p>
+        <div id="campaignListArea" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- 4. AUTO SEQUENCES BUILDER -->
+      <section id="tab-sequences" class="tab-content max-w-6xl">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-3xl font-black text-white tracking-tight">Auto Sequence Builder</h2>
+        </div>
+        <p class="text-sm text-zinc-400 mb-8 max-w-3xl leading-relaxed">Atur alur pengiriman pesan otomatis (Follow-up) setelah lead mendaftar. Pilih campaign, lalu tambahkan langkah-langkahnya secara berurutan.</p>
+
+        <div class="glass-panel mb-8">
+          <label>Pilih Campaign ID untuk diatur Follow-up nya</label>
+          <select id="seqCampaignSelect" class="input-pro bg-[#09090b]" onchange="renderSequences()">
+            <option value="SEQ_GENERAL">SEQ_GENERAL (Default)</option>
+          </select>
+        </div>
+
+        <!-- Timeline Builder -->
+        <div class="bg-[#18181b] border border-[#27272a] rounded-[2rem] p-8 md:p-12" id="sequenceBuilderArea">
+          <!-- Diinject oleh JS -->
+        </div>
+        
+        <div class="flex justify-center mt-8">
+           <button onclick="addSequenceStep()" class="btn-secondary !bg-indigo-600/20 !text-indigo-400 !border-indigo-500/50 hover:!bg-indigo-600/40"><i data-lucide="plus" class="w-4 h-4"></i> Tambah Langkah Follow-up</button>
+        </div>
+      </section>
+
+      <!-- 5. BROADCAST ENGINE -->
+      <section id="tab-broadcast" class="tab-content max-w-6xl">
+        <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Broadcast Engine</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <!-- Broadcast Form -->
+          <div class="lg:col-span-2 glass-panel">
+            <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">Jadwalkan Broadcast Baru</h3>
+            <div class="space-y-6">
+              <div class="grid grid-cols-2 gap-6">
+                <div><label>Channel Pengiriman</label><select id="bcChannel" class="input-pro bg-[#09090b]"><option value="WA">WhatsApp</option><option value="EMAIL">Email HTML</option></select></div>
+                <div><label>Target Tag / Campaign</label><input type="text" id="bcTag" class="input-pro" placeholder="Misal: PROMO_A atau new_lead"></div>
+              </div>
+              <div>
+                <label>Waktu Pengiriman (Kosongkan jika langsung)</label>
+                <input type="datetime-local" id="bcTime" class="input-pro">
+              </div>
+              <div>
+                <label>Isi Pesan / Template Copywriting</label>
+                <textarea id="bcMessage" rows="6" class="input-pro font-mono text-xs leading-relaxed" placeholder="Halo {{nama}}, ada promo eksklusif..."></textarea>
+              </div>
+              <button onclick="saveBroadcast()" class="btn-glow w-full !bg-rose-600 !shadow-[0_10px_25px_-5px_rgba(225,29,72,0.4)]"><i data-lucide="send" class="w-4 h-4"></i> MASUKKAN KE ANTREAN BROADCAST</button>
+            </div>
+          </div>
+
+          <!-- Pending Broadcasts -->
+          <div class="glass-panel !p-6">
+            <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6">Antrean Mendatang</h3>
+            <div id="bcQueueList" class="space-y-4">
+              <!-- Diinject JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. TEMPLATE LIBRARY -->
       <section id="tab-templates" class="tab-content max-w-6xl">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-3xl font-black text-white tracking-tight">Koleksi Template Copywriting</h2>
-          <p class="text-zinc-500 text-sm">Klik kartu untuk menyalin teks secara otomatis.</p>
         </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- WHATSAPP TEMPLATES -->
-          <div>
-            <h3 class="text-sm font-black text-emerald-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="message-circle"></i> Template WhatsApp</h3>
+          <div><h3 class="text-sm font-black text-emerald-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="message-circle"></i> Template WhatsApp</h3>
             <div class="space-y-4">
-              
-              <!-- TPL 1 -->
-              <div class="tpl-card group cursor-pointer" onclick="copyTemplate(this, 'Halo {{nama}}! 👋\n\nTerima kasih sudah mendaftar di program kami. Pendaftaran kamu sudah berhasil diamankan.\n\nSimpan nomor WA ini untuk update informasi eksklusif selanjutnya ya!\n\nSalam hangat,\nTim iMersConnect')">
-                <div class="copy-overlay"><i data-lucide="copy-check"></i> TERSALIN!</div>
-                <h4 class="text-white font-bold mb-2">1. Welcome Message (Pendaftaran Sukses)</h4>
-                <p class="text-zinc-400 text-xs font-mono leading-relaxed line-clamp-3">Halo {{nama}}! 👋 Terima kasih sudah mendaftar di program kami. Pendaftaran kamu sudah berhasil diamankan...</p>
+              <div class="glass-panel !p-5 group cursor-pointer hover:border-emerald-500/50" onclick="copyTemplate(this, 'Halo {{nama}}! 👋\n\nTerima kasih sudah mendaftar di program kami. Pendaftaran kamu sudah berhasil diamankan.\n\nSimpan nomor WA ini untuk update informasi eksklusif selanjutnya ya!\n\nSalam hangat,\nTim iMersConnect')">
+                <h4 class="text-white font-bold text-sm mb-2">1. Welcome Message (Pendaftaran Sukses)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">Halo {{nama}}! 👋 Terima kasih sudah mendaftar di program kami...</p>
               </div>
-
-              <!-- TPL 2 -->
-              <div class="tpl-card group cursor-pointer" onclick="copyTemplate(this, 'Pengingat Spesial untuk {{nama}} 🚨\n\nJangan lupa, sesi live eksklusif kita akan dimulai dalam waktu 15 Menit lagi!\n\nKlik link di bawah untuk masuk ke ruangan sekarang:\n{{link}}\n\nSampai jumpa di dalam!')">
-                <div class="copy-overlay"><i data-lucide="copy-check"></i> TERSALIN!</div>
-                <h4 class="text-white font-bold mb-2">2. Reminder Event / Webinar (15 Menit)</h4>
-                <p class="text-zinc-400 text-xs font-mono leading-relaxed line-clamp-3">Pengingat Spesial untuk {{nama}} 🚨 Jangan lupa, sesi live eksklusif kita akan dimulai dalam waktu 15 Menit lagi...</p>
+              <div class="glass-panel !p-5 group cursor-pointer hover:border-emerald-500/50" onclick="copyTemplate(this, 'Pengingat Spesial untuk {{nama}} 🚨\n\nJangan lupa, sesi live eksklusif kita akan dimulai dalam waktu 15 Menit lagi!\n\nKlik link di bawah untuk masuk ke ruangan sekarang:\n{{link}}\n\nSampai jumpa di dalam!')">
+                <h4 class="text-white font-bold text-sm mb-2">2. Reminder Event (15 Menit)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">Pengingat Spesial untuk {{nama}} 🚨 Jangan lupa, sesi live eksklusif...</p>
               </div>
-
-              <!-- TPL 3 -->
-              <div class="tpl-card group cursor-pointer" onclick="copyTemplate(this, 'PROMO KHUSUS HARI INI SAJA! 💥\n\nHalo {{nama}},\nKami melihat ketertarikan Anda. Khusus hari ini, gunakan kode diskon PROMO99 untuk mendapatkan potongan harga 50% di produk utama kami.\n\nKlaim sekarang sebelum kehabisan: {{link}}')">
-                <div class="copy-overlay"><i data-lucide="copy-check"></i> TERSALIN!</div>
-                <h4 class="text-white font-bold mb-2">3. Promo Broadcast / Follow-up</h4>
-                <p class="text-zinc-400 text-xs font-mono leading-relaxed line-clamp-3">PROMO KHUSUS HARI INI SAJA! 💥 Halo {{nama}}, Kami melihat ketertarikan Anda. Khusus hari ini, gunakan kode diskon...</p>
-              </div>
-
             </div>
           </div>
-
-          <!-- EMAIL TEMPLATES -->
-          <div>
-            <h3 class="text-sm font-black text-indigo-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="mail"></i> Template Email HTML</h3>
+          <div><h3 class="text-sm font-black text-indigo-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="mail"></i> Template Email HTML</h3>
             <div class="space-y-4">
-              
-              <!-- TPL 1 -->
-              <div class="tpl-card group cursor-pointer" onclick="copyTemplate(this, '<div style=\'font-family:sans-serif; color:#333;\'>\n  <h2 style=\'color:#10b981;\'>Selamat Datang, {{nama}}!</h2>\n  <p>Pendaftaran Anda telah berhasil kami terima di sistem database kami.</p>\n  <p>Berikut adalah akses link khusus untuk Anda:</p>\n  <a href=\'{{link}}\' style=\'display:inline-block; padding:12px 24px; background:#6366f1; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;\'>Akses Dashboard</a>\n  <p style=\'font-size:12px; color:#888; margin-top:30px;\'>Tim iMersConnect</p>\n</div>')">
-                <div class="copy-overlay"><i data-lucide="copy-check"></i> TERSALIN!</div>
-                <h4 class="text-white font-bold mb-2">1. Standard Welcome Email (Dengan Tombol)</h4>
-                <p class="text-zinc-400 text-xs font-mono leading-relaxed line-clamp-3">&lt;div style='font-family:sans-serif; color:#333;'&gt;&lt;h2 style='color:#10b981;'&gt;Selamat Datang, {{nama}}!&lt;/h2&gt;...</p>
+              <div class="glass-panel !p-5 group cursor-pointer hover:border-indigo-500/50" onclick="copyTemplate(this, '<div style=\'font-family:sans-serif; color:#333;\'>\n  <h2 style=\'color:#10b981;\'>Selamat Datang, {{nama}}!</h2>\n  <p>Pendaftaran Anda telah berhasil kami terima di sistem database kami.</p>\n  <a href=\'{{link}}\' style=\'display:inline-block; padding:12px 24px; background:#6366f1; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold;\'>Akses Dashboard</a>\n</div>')">
+                <h4 class="text-white font-bold text-sm mb-2">1. Standard Welcome Email (Tombol)</h4><p class="text-zinc-500 text-xs font-mono leading-relaxed line-clamp-2">&lt;div style='font-family:sans-serif; color:#333;'&gt;&lt;h2...&gt;</p>
               </div>
-
-               <!-- TPL 2 -->
-               <div class="tpl-card group cursor-pointer" onclick="copyTemplate(this, '<div style=\'font-family:sans-serif; line-height:1.6; color:#111;\'>\n  <p>Halo {{nama}},</p>\n  <p>Saya melihat Anda belum menyelesaikan langkah pendaftaran. Apakah ada kendala?</p>\n  <p>Balas email ini jika butuh bantuan, tim support kami siap membantu Anda 24/7.</p>\n  <br><p>Salam sukses,</p><p><strong>Admin iMersConnect</strong></p>\n</div>')">
-                <div class="copy-overlay"><i data-lucide="copy-check"></i> TERSALIN!</div>
-                <h4 class="text-white font-bold mb-2">2. Follow-up Abandoned (Polos/Personal)</h4>
-                <p class="text-zinc-400 text-xs font-mono leading-relaxed line-clamp-3">&lt;p&gt;Halo {{nama}},&lt;/p&gt;&lt;p&gt;Saya melihat Anda belum menyelesaikan langkah pendaftaran. Apakah ada kendala?&lt;/p&gt;...</p>
-              </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. GATEWAY & API -->
+      <!-- 7. GATEWAY & API -->
       <section id="tab-gateway" class="tab-content max-w-5xl">
         <h2 class="text-3xl font-black mb-8 text-white tracking-tight">API & Security Hub</h2>
-        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div class="glass-panel">
-            <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="server" class="text-indigo-500"></i> WhatsApp Provider</h3>
+          <div class="glass-panel"><h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="server" class="text-indigo-500"></i> WhatsApp Provider</h3>
             <div class="space-y-5">
               <div><label>API Token (Fonnte/Lainnya)</label><input type="password" id="waToken" class="input-pro"></div>
               <div><label>Nomor Admin (Pengirim)</label><input type="text" id="waSender" class="input-pro" placeholder="628xxxxxxx"></div>
             </div>
           </div>
-
-          <div class="glass-panel border-rose-500/30">
-            <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="shield-alert" class="text-rose-500"></i> Stealth Security</h3>
+          <div class="glass-panel border-rose-500/30"><h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="shield-alert" class="text-rose-500"></i> Stealth Security</h3>
             <div class="space-y-5">
-              <div>
-                <label>Jumlah Klik Rahasia</label>
-                <input type="number" id="stealthClickCount" class="input-pro" placeholder="7">
-                <p class="text-xs text-zinc-500 mt-3 leading-relaxed">Ini adalah jumlah klik rahasia pada tulisan samar "iMersConnect" di halaman 404 untuk memunculkan form login admin.</p>
-              </div>
+              <div><label>Jumlah Klik Rahasia (Login)</label><input type="number" id="stealthClickCount" class="input-pro" placeholder="7"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 5. GLOBAL BRANDING -->
+      <!-- 8. GLOBAL BRANDING -->
       <section id="tab-global" class="tab-content max-w-5xl">
         <h2 class="text-3xl font-black mb-8 text-white tracking-tight">Global Branding Engine</h2>
-        
         <div class="glass-panel mb-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div><label>Nama Brand Master</label><input type="text" id="appName" class="input-pro" placeholder="iMersConnect"></div>
-            <div><label>Web Deployment URL (Vercel/Github)</label><input type="text" id="websiteUrl" class="input-pro" oninput="refreshSummaryTable()"></div>
+            <div><label>Nama Brand Master</label><input type="text" id="appName" class="input-pro"></div>
+            <div><label>Web Deployment URL (Vercel/Github)</label><input type="text" id="websiteUrl" class="input-pro"></div>
             <div><label>Logo Utama (URL)</label><input type="text" id="logoUrl" class="input-pro"></div>
             <div><label>Global Redirect (Success Page)</label><input type="text" id="redirectUrl" class="input-pro"></div>
           </div>
-        </div>
-
-        <div class="glass-panel mb-8">
-           <h3 class="text-sm font-black text-white uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="type" class="text-emerald-500"></i> Global Typography</h3>
-           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-             <div><label>Font Size Default (px)</label><input type="number" id="globalFontSize" class="input-pro"></div>
-             <div><label>Font Family</label><select id="globalFontFamily" class="input-pro bg-[#09090b]"><option value="Plus Jakarta Sans">Plus Jakarta Sans</option><option value="Poppins">Poppins</option><option value="serif">Lora</option></select></div>
-             <div><label>Judul Default Form</label><input type="text" id="formHeading" class="input-pro"></div>
-             <div><label>Teks Tombol CTA Default</label><input type="text" id="btnText" class="input-pro"></div>
-           </div>
         </div>
       </section>
 
@@ -336,7 +336,30 @@
     // GANTI DENGAN URL DEPLOYMENT APPS SCRIPT LO!
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBeOGbT3HHIe0c8Yzzi-bcFFHVhiCf-p5w-nBnGGANzLb79LjWeX9W5yjexld0sQBW/exec";
 
-    let campaigns = [], masterShowProductImg = false, editingIndex = null;
+    // --- STATE MANAGEMENT ---
+    let campaigns = [];
+    let sequences = [];
+    let broadcasts = [];
+    let stealthClicksTarget = 7;
+    let clickCount = 0, clickTimer = null;
+
+    // --- INIT CHARTS ---
+    let chart1, chart2;
+    function initCharts() {
+      const ctx1 = document.getElementById('leadsChart').getContext('2d');
+      chart1 = new Chart(ctx1, {
+        type: 'line',
+        data: { labels: ['H-6','H-5','H-4','H-3','H-2','H-1','Hari Ini'], datasets: [{ label: 'Leads', data: [12,19,15,25,22,30,45], borderColor: '#10b981', tension: 0.4, backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true }] },
+        options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { color: '#27272a' } } } }
+      });
+
+      const ctx2 = document.getElementById('deliveryChart').getContext('2d');
+      chart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: { labels: ['WhatsApp','Email'], datasets: [{ data: [75, 25], backgroundColor: ['#10b981','#6366f1'], borderWidth: 0 }] },
+        options: { plugins: { legend: { position: 'bottom', labels: { color: '#a1a1aa' } } }, cutout: '70%' }
+      });
+    }
 
     // --- TAB SWITCHER ---
     function switchTab(tabId) {
@@ -344,20 +367,10 @@
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
       document.getElementById('nav-' + tabId).classList.add('active');
+      if(tabId === 'sequences') renderSequences();
     }
 
-    // --- TEMPLATE COPY ENGINE ---
-    function copyTemplate(element, text) {
-      const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select();
-      document.execCommand('copy'); document.body.removeChild(el);
-      
-      element.classList.add('copied');
-      setTimeout(() => element.classList.remove('copied'), 2000);
-    }
-
-    // --- STEALTH LOGIC ---
-    let clickCount = 0; let clickTimer = null; let targetClicks = 7; 
-
+    // --- STEALTH & SECURE LOGOUT ---
     function closeLoadingOverlay() {
       const loader = document.getElementById('loading-overlay');
       loader.style.opacity = '0';
@@ -367,41 +380,42 @@
     fetch(`${WEB_APP_URL}?action=getSettings`)
       .then(res => res.json())
       .then(data => { 
-        if(data.stealthClickCount) targetClicks = parseInt(data.stealthClickCount); 
-        closeLoadingOverlay(); // FIX: Hilangkan loader setelah ngecek click
-      })
-      .catch(err => {
-        console.log("Init stealth error", err);
-        closeLoadingOverlay(); // FIX: Hilangkan loader walaupun error
-      });
+        if(data.stealthClickCount) stealthClicksTarget = parseInt(data.stealthClickCount); 
+        closeLoadingOverlay(); 
+      }).catch(err => closeLoadingOverlay());
 
     function triggerSecretLogin() {
       clickCount++;
       if (clickTimer) clearTimeout(clickTimer);
       clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
 
-      if (clickCount >= targetClicks) {
+      if (clickCount >= stealthClicksTarget) {
         document.getElementById('stealthCover').style.opacity = '0';
         setTimeout(() => {
           document.getElementById('stealthCover').style.display = 'none';
           const ls = document.getElementById('loginScreen');
-          ls.classList.remove('hidden');
-          ls.classList.add('flex');
+          ls.classList.remove('hidden'); ls.classList.add('flex');
           setTimeout(() => ls.style.opacity = '1', 50);
         }, 700);
         clickCount = 0;
       }
     }
 
-    // --- LOGIN LOGIC ---
+    function logoutAdmin() {
+      // Cara paling aman bersihin JS state & kredensial tanpa refresh server state
+      if(confirm("Yakin ingin mengunci kembali dashboard ini?")) {
+        window.location.reload();
+      }
+    }
+
+    // --- LOGIN ---
     async function handleLogin(event) {
       event.preventDefault();
       const btn = document.getElementById('btnLogin');
       btn.innerText = "VERIFYING..."; btn.disabled = true;
       try {
         const res = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'login', email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value })
+          method: 'POST', body: JSON.stringify({ action: 'login', email: document.getElementById('loginEmail').value, password: document.getElementById('loginPassword').value })
         });
         const data = await res.json();
         
@@ -410,9 +424,9 @@
           setTimeout(() => {
             document.getElementById('loginScreen').style.display = 'none';
             const md = document.getElementById('mainDashboard');
-            md.classList.remove('hidden');
-            md.classList.add('flex');
+            md.classList.remove('hidden'); md.classList.add('flex');
             setTimeout(() => md.style.opacity = '1', 50);
+            initCharts();
             loadSettings(); 
           }, 500);
         } else { alert("Akses Ditolak: " + data.message); }
@@ -420,95 +434,143 @@
       finally { btn.innerText = "AUTHORIZE ACCESS"; btn.disabled = false; }
     }
 
-    // --- CAMPAIGN ENGINE ---
-    function getFullLink(id) { 
-      const b = (document.getElementById('websiteUrl').value || "").replace(/\/$/, ""); 
-      return id ? (b ? `${b}/?campaign=${id}` : `/?campaign=${id}`) : "--- Konfigurasi URL Website Dahulu ---"; 
+    // --- CAMPAIGN BUILDER ---
+    function addCampaign() {
+      campaigns.push({ id: `CAMP_${Math.floor(Math.random()*1000)}`, appName: 'New Campaign', theme: 'midnight', layout: 'center', formHeading: 'Daftar Sekarang' });
+      renderCampaigns();
+      populateSeqSelect();
     }
-
-    function copyLink(text) {
-      const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select();
-      document.execCommand('copy'); document.body.removeChild(el);
-      alert("Link tercopy: " + text);
-    }
-
-    function refreshSummaryTable() {
-      const tbody = document.getElementById('summaryTableBody'), emptyMsg = document.getElementById('emptyCampaignMsg');
-      tbody.innerHTML = ""; const activeCamps = campaigns.filter(c => c !== null);
-      if(activeCamps.length === 0) emptyMsg.classList.remove('hidden'); else emptyMsg.classList.add('hidden');
+    function removeCampaign(idx) { if(confirm("Hapus link ini?")) { campaigns.splice(idx, 1); renderCampaigns(); populateSeqSelect(); } }
+    
+    function renderCampaigns() {
+      const area = document.getElementById('campaignListArea');
+      area.innerHTML = '';
+      document.getElementById('statSeqs').innerText = campaigns.length;
       
-      campaigns.forEach((c, idx) => { 
-        if(c === null) return; 
-        const fl = getFullLink(c.id);
-        const tr = document.createElement('tr'); 
-        tr.className = "hover:bg-[#18181b] transition-colors";
-        tr.innerHTML = `
-          <td class="p-5 font-bold text-white">${c.appName || '(Tanpa Nama)'}</td>
-          <td class="p-5 font-mono text-[11px] text-emerald-500 font-bold uppercase">/${c.id || '---'}</td>
-          <td class="p-5 text-center"><button onclick="copyLink('${fl}')" class="p-2 bg-[#27272a] hover:bg-[#3f3f46] text-white rounded-lg transition-all"><i data-lucide="link" class="w-4 h-4"></i></button></td>
-          <td class="p-5 text-right flex justify-end gap-2"><button onclick="openEditor(${idx})" class="p-2 text-indigo-400 hover:bg-indigo-500/20 rounded-lg transition-all"><i data-lucide="edit-3" class="w-4 h-4"></i></button><button onclick="removeCampaignRow(${idx})" class="p-2 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-all"><i data-lucide="trash-2" class="w-4 h-4"></i></button></td>`; 
-        tbody.appendChild(tr); 
+      campaigns.forEach((c, idx) => {
+        area.innerHTML += `
+          <div class="glass-panel !p-6 border-t-4 border-t-indigo-500 relative">
+            <button onclick="removeCampaign(${idx})" class="absolute top-4 right-4 text-zinc-600 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <input type="text" class="input-pro mb-3 font-bold !text-indigo-400 !bg-[#18181b]" value="${c.id}" oninput="campaigns[${idx}].id = this.value; populateSeqSelect()">
+            <input type="text" class="input-pro mb-3 text-xs" value="${c.appName}" oninput="campaigns[${idx}].appName = this.value" placeholder="Nama Brand/Event">
+            <div class="grid grid-cols-2 gap-3 mb-4">
+               <select class="input-pro text-xs bg-[#09090b]" onchange="campaigns[${idx}].theme = this.value"><option value="midnight" ${c.theme==='midnight'?'selected':''}>Midnight</option><option value="ocean" ${c.theme==='ocean'?'selected':''}>Ocean</option><option value="nature" ${c.theme==='nature'?'selected':''}>Nature</option></select>
+               <select class="input-pro text-xs bg-[#09090b]" onchange="campaigns[${idx}].layout = this.value"><option value="center" ${c.layout==='center'?'selected':''}>Center</option><option value="split" ${c.layout==='split'?'selected':''}>Split</option></select>
+            </div>
+            <input type="text" class="input-pro text-xs mb-3" value="${c.productImageUrl || ''}" oninput="campaigns[${idx}].productImageUrl = this.value" placeholder="URL Gambar Produk (Utk Split)">
+            <button class="btn-secondary w-full text-[10px]" onclick="alert('Link: '+document.getElementById('websiteUrl').value+'/?campaign='+campaigns[${idx}].id)"><i data-lucide="link" class="w-3 h-3"></i> Dapatkan Link</button>
+          </div>
+        `;
       });
       lucide.createIcons();
     }
 
-    function openEditor(idx = null) {
-      const area = document.getElementById('campaignEditorArea'), listArea = document.getElementById('campaignSummaryArea');
-      editingIndex = idx; listArea.style.display = 'none'; area.classList.remove('hidden');
-      if(idx === null) { 
-        campaigns.push({ id: '', appName: '', logoUrl: '', formHeading: '', tagline: '', btnText: '', redirect: '', theme: 'midnight', layout: 'center', productImageUrl: '', showProductImg: 'true', emailSubject: '', emailTemplate: '', waTemplate: '' }); 
-        editingIndex = campaigns.length - 1; 
+    // --- SEQUENCES BUILDER ---
+    function populateSeqSelect() {
+      const sel = document.getElementById('seqCampaignSelect');
+      const curVal = sel.value;
+      sel.innerHTML = `<option value="SEQ_GENERAL">SEQ_GENERAL (Default)</option>`;
+      campaigns.forEach(c => { if(c.id) sel.innerHTML += `<option value="${c.id}">${c.id} - ${c.appName}</option>`; });
+      if(Array.from(sel.options).find(o => o.value === curVal)) sel.value = curVal;
+      renderSequences();
+    }
+
+    function addSequenceStep() {
+      const campId = document.getElementById('seqCampaignSelect').value;
+      const stepNum = sequences.filter(s => s.campaignId === campId).length + 1;
+      sequences.push({ campaignId: campId, step: stepNum, channel: 'WA', delayType: 'IMMEDIATE', delayValue: 0, msg: '' });
+      renderSequences();
+    }
+
+    function removeSeqStep(idx) {
+      if(confirm("Hapus step ini?")) { sequences.splice(idx, 1); renderSequences(); }
+    }
+
+    function renderSequences() {
+      const campId = document.getElementById('seqCampaignSelect').value;
+      const area = document.getElementById('sequenceBuilderArea');
+      area.innerHTML = '';
+      
+      const filtered = sequences.filter(s => s.campaignId === campId).sort((a,b) => a.step - b.step);
+      
+      if(filtered.length === 0) {
+        area.innerHTML = '<p class="text-center text-zinc-500 text-sm italic py-10">Belum ada langkah follow-up. Lead yang masuk tidak akan menerima pesan otomatis.</p>';
+        return;
       }
-      renderEditorCard(editingIndex);
-    }
 
-    function closeEditor() { 
-      document.getElementById('campaignEditorArea').classList.add('hidden'); 
-      document.getElementById('campaignSummaryArea').style.display = 'block'; 
-      refreshSummaryTable(); 
-    }
-
-    function renderEditorCard(idx) {
-      const c = document.getElementById('campaignEditorContainer'), d = campaigns[idx];
-      c.innerHTML = `
-        <div class="glass-panel border-indigo-500/30 relative">
-          <h3 class="text-lg font-black text-white uppercase tracking-widest mb-8 flex items-center gap-3"><i data-lucide="git-commit" class="text-indigo-500"></i> Campaign Customizer</h3>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div><label>Nama Display Campaign</label><input type="text" class="input-pro" value="${d.appName}" oninput="updateCamp(${idx}, 'appName', this.value)"></div>
-            <div><label>Slug URL (Unik)</label><input type="text" class="input-pro border-emerald-500/50 text-emerald-400" value="${d.id}" oninput="updateCamp(${idx}, 'id', this.value)"></div>
+      filtered.forEach((s) => {
+        // Cari index aslinya di array utama
+        const realIdx = sequences.findIndex(x => x === s);
+        
+        area.innerHTML += `
+          <div class="sequence-step">
+             <div class="flex items-center justify-between mb-4">
+                <span class="bg-indigo-500/20 text-indigo-400 font-bold px-3 py-1 rounded-full text-[10px] tracking-widest uppercase">Step ${s.step}</span>
+                <button onclick="removeSeqStep(${realIdx})" class="text-zinc-600 hover:text-rose-500"><i data-lucide="trash" class="w-4 h-4"></i></button>
+             </div>
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div><label>Kirim Melalui</label><select class="input-pro bg-[#09090b]" onchange="sequences[${realIdx}].channel = this.value"><option value="WA" ${s.channel==='WA'?'selected':''}>WhatsApp</option><option value="EMAIL" ${s.channel==='EMAIL'?'selected':''}>Email</option></select></div>
+                <div><label>Kapan Dikirim?</label><select class="input-pro bg-[#09090b]" onchange="sequences[${realIdx}].delayType = this.value"><option value="IMMEDIATE" ${s.delayType==='IMMEDIATE'?'selected':''}>Langsung (Saat Daftar)</option><option value="MINUTES" ${s.delayType==='MINUTES'?'selected':''}>X Menit Kemudian</option><option value="HOURS" ${s.delayType==='HOURS'?'selected':''}>X Jam Kemudian</option><option value="DAYS" ${s.delayType==='DAYS'?'selected':''}>X Hari Kemudian</option></select></div>
+                <div><label>Nilai Waktu (X)</label><input type="number" class="input-pro" value="${s.delayValue}" oninput="sequences[${realIdx}].delayValue = this.value" ${s.delayType==='IMMEDIATE'?'disabled opacity-50':''}></div>
+             </div>
+             <div><label>Template Pesan</label><textarea rows="3" class="input-pro font-mono text-xs" oninput="sequences[${realIdx}].msg = this.value" placeholder="Isi pesan / HTML Email...">${s.msg}</textarea></div>
           </div>
-          
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 pb-10 border-b border-[#27272a]">
-             <div><label>Theme</label><select class="input-pro bg-[#09090b]" onchange="updateCamp(${idx}, 'theme', this.value)"><option value="midnight" ${d.theme==='midnight'?'selected':''}>Midnight Dark</option><option value="clean" ${d.theme==='clean'?'selected':''}>Clean White</option></select></div>
-             <div><label>Layout</label><select class="input-pro bg-[#09090b]" onchange="updateCamp(${idx}, 'layout', this.value)"><option value="center" ${d.layout==='center'?'selected':''}>Center</option><option value="split" ${d.layout==='split'?'selected':''}>Split Kiri/Kanan</option></select></div>
-             <div><label>Image Produk URL</label><input type="text" class="input-pro" value="${d.productImageUrl}" oninput="updateCamp(${idx}, 'productImageUrl', this.value)"></div>
-          </div>
-
-          <h3 class="text-sm font-black text-emerald-500 uppercase tracking-widest mb-6 flex items-center gap-3"><i data-lucide="message-square"></i> Messaging Sequences (Autoresponder)</h3>
-          <p class="text-xs text-zinc-500 mb-6">Gunakan Template Gallery di menu samping untuk mempermudah penulisan pesan.</p>
-          
-          <div class="space-y-6">
-            <div><label class="!text-indigo-400">Subjek Email Khusus Campaign</label><input type="text" class="input-pro" value="${d.emailSubject}" oninput="updateCamp(${idx}, 'emailSubject', this.value)"></div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div>
-                <label class="!text-indigo-400"><i data-lucide="code" class="w-3 h-3 inline"></i> Isi Email (HTML)</label>
-                <textarea rows="10" class="input-pro font-mono text-xs" oninput="updateCamp(${idx}, 'emailTemplate', this.value)">${d.emailTemplate}</textarea>
-              </div>
-              <div>
-                <label class="!text-emerald-400"><i data-lucide="message-circle" class="w-3 h-3 inline"></i> Isi WhatsApp (Teks)</label>
-                <textarea rows="10" class="input-pro font-mono text-xs" oninput="updateCamp(${idx}, 'waTemplate', this.value)">${d.waTemplate}</textarea>
-              </div>
-            </div>
-          </div>
-        </div>`; 
+        `;
+      });
       lucide.createIcons();
     }
 
-    function updateCamp(idx, k, v) { if(campaigns[idx]) campaigns[idx][k] = v; }
-    function removeCampaignRow(idx) { if(confirm("Yakin hapus campaign ini?")) { campaigns[idx] = null; refreshSummaryTable(); } }
+    // --- BROADCAST ENGINE ---
+    function saveBroadcast() {
+      const bc = {
+        id: `BC_${Math.floor(Math.random()*1000)}`,
+        channel: document.getElementById('bcChannel').value,
+        tag: document.getElementById('bcTag').value,
+        time: document.getElementById('bcTime').value || 'SEKARANG',
+        msg: document.getElementById('bcMessage').value
+      };
+      if(!bc.msg) return alert("Pesan tidak boleh kosong!");
+      broadcasts.push(bc);
+      document.getElementById('bcMessage').value = '';
+      renderBroadcasts();
+      alert("Dimasukkan ke antrean! Jangan lupa SAVE ALL CHANGES.");
+    }
+    
+    function removeBroadcast(idx) { broadcasts.splice(idx, 1); renderBroadcasts(); }
 
-    // --- FETCH API SAVE/LOAD ---
+    function renderBroadcasts() {
+      const area = document.getElementById('bcQueueList');
+      area.innerHTML = '';
+      document.getElementById('statBc').innerText = broadcasts.length;
+      
+      if(broadcasts.length === 0) area.innerHTML = '<p class="text-xs text-zinc-600 italic">Tidak ada antrean.</p>';
+      
+      broadcasts.forEach((b, idx) => {
+        area.innerHTML += `
+          <div class="p-4 border border-[#27272a] rounded-xl relative group">
+            <button onclick="removeBroadcast(${idx})" class="absolute top-2 right-2 text-zinc-600 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="x" class="w-4 h-4"></i></button>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-400">${b.channel}</span>
+              <span class="text-[9px] font-bold text-zinc-400 uppercase">Tag: ${b.tag || 'ALL'}</span>
+            </div>
+            <p class="text-xs text-white mb-2 line-clamp-2">${b.msg}</p>
+            <p class="text-[9px] text-zinc-500"><i data-lucide="clock" class="w-3 h-3 inline"></i> ${b.time}</p>
+          </div>
+        `;
+      });
+      lucide.createIcons();
+    }
+
+    // --- COPY TEMPLATE ---
+    function copyTemplate(el, text) {
+      navigator.clipboard.writeText(text);
+      const originalHtml = el.innerHTML;
+      el.innerHTML = '<div class="flex items-center justify-center h-full w-full text-emerald-500 font-black tracking-widest"><i data-lucide="check-circle" class="w-8 h-8 mr-2"></i> TERSALIN</div>';
+      lucide.createIcons();
+      setTimeout(() => { el.innerHTML = originalHtml; lucide.createIcons(); }, 1500);
+    }
+
+    // --- SAVE & LOAD DATA ---
     async function handleSave() {
       const btn = document.getElementById('saveBtnMaster'), old = btn.innerHTML;
       btn.disabled = true; btn.innerHTML = "<i data-lucide='loader-2' class='animate-spin w-4 h-4'></i> SAVING..."; lucide.createIcons();
@@ -518,35 +580,28 @@
 
       const payload = {
         action: 'save_settings',
-        appName: document.getElementById('appName').value, 
-        websiteUrl: document.getElementById('websiteUrl').value, 
-        logoUrl: document.getElementById('logoUrl').value, 
-        redirectUrl: document.getElementById('redirectUrl').value, 
-        formHeading: document.getElementById('formHeading').value, 
-        btnText: document.getElementById('btnText').value, 
-        globalFontSize: document.getElementById('globalFontSize').value, 
-        globalFontFamily: document.getElementById('globalFontFamily').value, 
-        waToken: document.getElementById('waToken').value, 
-        waSender: document.getElementById('waSender').value, 
+        appName: document.getElementById('appName').value, websiteUrl: document.getElementById('websiteUrl').value, 
+        logoUrl: document.getElementById('logoUrl').value, redirectUrl: document.getElementById('redirectUrl').value, 
+        formHeading: document.getElementById('formHeading').value, btnText: document.getElementById('btnText').value, 
+        globalFontSize: document.getElementById('globalFontSize').value, globalFontFamily: document.getElementById('globalFontFamily').value, 
+        waToken: document.getElementById('waToken').value, waSender: document.getElementById('waSender').value, 
         stealthClickCount: document.getElementById('stealthClickCount').value,
-        campaignSettings: JSON.stringify(campaigns.filter(c => c !== null && c.id.trim() !== ""))
+        
+        // Data Dinamis Array JSON (Akan disimpan sebagai string di Settings)
+        campaignSettings: JSON.stringify(campaigns),
+        sequencesData: JSON.stringify(sequences),
+        broadcastData: JSON.stringify(broadcasts)
       };
       
       try {
         await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-        refreshSummaryTable(); 
-        
         btn.classList.replace('btn-glow', 'bg-emerald-600');
-        btn.innerHTML = "<i data-lucide='check' class='w-4 h-4'></i> SUCCESS!";
+        btn.innerHTML = "<i data-lucide='check' class='w-4 h-4'></i> SYNC SUCCESS!";
       } catch(e) { alert("Gagal menyimpan ke server Database!"); }
       finally { 
         lucide.createIcons();
         document.getElementById('loading-overlay').style.opacity = '0';
-        setTimeout(() => {
-          document.getElementById('loading-overlay').classList.add('hidden');
-          btn.classList.replace('bg-emerald-600', 'btn-glow');
-          btn.innerHTML = old; btn.disabled = false; lucide.createIcons();
-        }, 2000);
+        setTimeout(() => { document.getElementById('loading-overlay').classList.add('hidden'); btn.classList.replace('bg-emerald-600', 'btn-glow'); btn.innerHTML = old; btn.disabled = false; lucide.createIcons(); }, 2000);
       }
     }
 
@@ -558,19 +613,21 @@
         const res = await fetch(`${WEB_APP_URL}?action=getSettings`);
         const data = await res.json();
         
-        document.getElementById('appName').value = data.appName || ""; 
-        document.getElementById('websiteUrl').value = data.websiteUrl || "";
-        document.getElementById('logoUrl').value = data.logoUrl || ""; 
-        document.getElementById('redirectUrl').value = data.redirectUrl || "";
-        document.getElementById('waToken').value = data.waToken || ""; 
-        document.getElementById('waSender').value = data.waSender || "";
+        document.getElementById('appName').value = data.appName || ""; document.getElementById('websiteUrl').value = data.websiteUrl || "";
+        document.getElementById('logoUrl').value = data.logoUrl || ""; document.getElementById('redirectUrl').value = data.redirectUrl || "";
+        document.getElementById('waToken').value = data.waToken || ""; document.getElementById('waSender').value = data.waSender || "";
         document.getElementById('stealthClickCount').value = data.stealthClickCount || "7";
-        document.getElementById('formHeading').value = data.formHeading || ""; 
-        document.getElementById('btnText').value = data.btnText || "";
-        document.getElementById('globalFontSize').value = data.globalFontSize || "38"; 
-        document.getElementById('globalFontFamily').value = data.globalFontFamily || "Plus Jakarta Sans";
+        document.getElementById('formHeading').value = data.formHeading || ""; document.getElementById('btnText').value = data.btnText || "";
+        document.getElementById('globalFontSize').value = data.globalFontSize || "38"; document.getElementById('globalFontFamily').value = data.globalFontFamily || "Plus Jakarta Sans";
         
-        if (data.campaignSettings) { try { campaigns = JSON.parse(data.campaignSettings); refreshSummaryTable(); } catch(e) {} }
+        if (data.campaignSettings) { try { campaigns = JSON.parse(data.campaignSettings); } catch(e) {} }
+        if (data.sequencesData) { try { sequences = JSON.parse(data.sequencesData); } catch(e) {} }
+        if (data.broadcastData) { try { broadcasts = JSON.parse(data.broadcastData); } catch(e) {} }
+        
+        renderCampaigns();
+        populateSeqSelect();
+        renderBroadcasts();
+
       } catch(e) { console.error(e); } 
       finally { 
         document.getElementById('loading-overlay').style.opacity = '0';
