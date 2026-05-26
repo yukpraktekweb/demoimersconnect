@@ -15,7 +15,8 @@
     /* Transisi Halus Saat Font/Theme Berubah */
     body { 
       min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; 
-      padding: 50px 16px; opacity: 0; transition: opacity 0.8s, background 0.6s ease; overflow-x: hidden; text-transform: none !important; 
+      padding: 50px 16px; transition: background 0.6s ease; overflow-x: hidden; text-transform: none !important; 
+      /* BUGFIX: Menghapus opacity: 0; yang bikin blank */
     }
     
     /* 1. THEME: MIDNIGHT (Dark & Elegant) */
@@ -193,7 +194,7 @@
         document.documentElement.style.setProperty('--title-fs', `${fontSizeStr}px`);
         
         document.body.className = `theme-${theme}`;
-        document.getElementById('mainWrapper').className = (layout === 'split') ? "layout-split" : "layout-center";
+        document.getElementById('mainWrapper').className = (layout === 'split') ? "layout-split animate-in" : "layout-center animate-in";
         
         document.title = appName;
         document.getElementById('dynamicAppName').innerText = appName;
@@ -218,19 +219,24 @@
           setTimeout(() => { document.getElementById('productImageWrapper').classList.add('scale-100', 'opacity-100'); }, 200);
         }
 
-        // Animasi Tampil (Fade In)
+        // Animasi Tampil (Fade In) BUGFIX APPLY DI SINI
         document.getElementById('loader-overlay').style.opacity = '0';
         setTimeout(() => { 
-          document.getElementById('loader-overlay').remove(); 
+          const loader = document.getElementById('loader-overlay');
+          if(loader) loader.remove(); 
           document.getElementById('mainWrapper').style.opacity = '1'; 
-          document.getElementById('protectedFooter').style.opacity = '1'; 
+          const footer = document.getElementById('protectedFooter');
+          if(footer) footer.style.opacity = '1'; 
         }, 500);
 
       } catch (err) { 
         console.error("Gagal menarik data dari server:", err); 
-        // Fallback Force Show
-        document.getElementById('loader-overlay').style.display = 'none';
+        // Fallback Force Show (Kalau server lemot/error, paksa munculin form)
+        const loader = document.getElementById('loader-overlay');
+        if(loader) loader.style.display = 'none';
         document.getElementById('mainWrapper').style.opacity = '1'; 
+        const footer = document.getElementById('protectedFooter');
+        if(footer) footer.style.opacity = '1';
       }
     }
 
